@@ -17,17 +17,6 @@
       <button @click="nextSlide" class="carousel-button next-button"><font-awesome-icon :icon="['fas', 'arrow-right']" /></button>
     </div>
   </div>
-
-  <div class="ranking">
-    <h1>
-      <font-awesome-icon :icon="['fas', 'crown']" />
-      랭킹순
-    </h1>
-    <div>
-      
-    </div>
-  </div>
-
 </template>
 
 <script>
@@ -119,11 +108,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.ranking {
-  text-align: left;
-  margin: 30px;
 }
 
 </style>
