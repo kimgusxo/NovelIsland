@@ -61,7 +61,7 @@ export default {
 
 .signUp-wrapper > h2{
     font-size: 42px;
-    color: olive;
+    color: red;
     margin-bottom: 20px;
 }
 
@@ -80,7 +80,7 @@ export default {
 #signUp-form > input[type="submit"]{
     color: white;
     font-size: 16px;
-    background-color: olive;
+    background-color: red;
     margin-top: 20px;
 }
 
@@ -101,7 +101,7 @@ export default {
 .input-wrapper > button {
   height: 48px;
   font-size: 16px;
-  background-color: olive;
+  background-color: red;
   color: white;
   border-radius: 6px;
   cursor: pointer;

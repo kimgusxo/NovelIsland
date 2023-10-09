@@ -67,7 +67,7 @@ export default {
   height: 75px; /* 헤더의 높이 설정 */
   padding: 1rem;
   color: white;
-  background: olive;
+  background: red;
   font-weight: bold;
   display: flex;
   justify-content: space-between;

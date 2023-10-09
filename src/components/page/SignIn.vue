@@ -31,7 +31,7 @@ export default {
 
 .login-wrapper > h2{
     font-size: 42px;
-    color: olive;
+    color: red;
     margin-bottom: 20px;
 }
 #login-form > input{
@@ -49,7 +49,7 @@ export default {
 #login-form > input[type="submit"]{
     color: #fff;
     font-size: 16px;
-    background-color: olive;
+    background-color: red;
     margin-top: 20px;
 }
 

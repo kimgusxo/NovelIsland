@@ -80,13 +80,13 @@ export default {
 /* prev 아이콘 스타일링 */
 .prev-button .svg-inline--fa {
   font-size: 80px; /* 아이콘 크기 조절 */
-  color: olive; /* 아이콘 색상 조절 */
+  color: red; /* 아이콘 색상 조절 */
 }
 
 /* next 아이콘 스타일링 */
 .next-button .svg-inline--fa {
   font-size: 80px; /* 아이콘 크기 조절 */
-  color: olive; /* 아이콘 색상 조절 */
+  color: red; /* 아이콘 색상 조절 */
 }
 
 /* 슬라이드 내용 스타일링 */

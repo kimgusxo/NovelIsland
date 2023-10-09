@@ -47,6 +47,6 @@
   cursor: pointer; /* 마우스를 올릴 때 커서를 포인터로 변경합니다. */
   margin-left: 5px;
   color: white;
-  background: olive;
+  background: red;
 }
 </style>
