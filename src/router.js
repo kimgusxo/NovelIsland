@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PageCarousel from './components/PageCarousel' // 라우트 컴포넌트를 import
-import NovelPage from './components/NovelPage'
-import AuthorPage from './components/AuthorPage'
-import GenrePage from './components/GenrePage'
-import SearchPage from './components/SearchPage'
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
+import MainPage from './components/page/MainPage' // 라우트 컴포넌트를 import
+import NovelPage from './components/page/NovelPage'
+import AuthorPage from './components/page/AuthorPage'
+import GenrePage from './components/page/GenrePage'
+import SearchPage from './components/page/SearchPage'
+import SignIn from './components/page/SignIn'
+import SignUp from './components/page/SignUp'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: PageCarousel,
+      component: MainPage,
     },
     {
       path: '/novel',
