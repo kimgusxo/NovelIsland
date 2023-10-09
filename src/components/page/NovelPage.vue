@@ -1,4 +1,7 @@
 <template>
+  <h1>
+    소설
+  </h1>
   <div>
     <SearchComponent />
   </div>

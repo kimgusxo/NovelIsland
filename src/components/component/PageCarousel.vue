@@ -6,10 +6,10 @@
     </h1>
     <div class="carousel-container">
       <button @click="prevSlide" class="carousel-button prev-button"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
-      <carousel :perPage="1" :loop="true" ref="carouselRef">
+      <carousel ref="carouselRef">
         <slide v-for="(image, index) in images" :key="index">
           <div class="slide-content">
-            <img :src="image" alt="Carousel Image" class="carousel-image" />
+            <img :src="image" class="carousel-image" />
             <h1>소설이름</h1>
           </div>
         </slide>
@@ -35,6 +35,7 @@ export default {
         'https://comicthumb-phinf.pstatic.net/20160216_216/pocket_14556178273891qpTh_JPEG/h300.jpg?type=m600x314',
         'https://comicthumb-phinf.pstatic.net/20230615_64/pocket_1686819221240B5JFh_JPEG/cover_.jpg?type=m600x314',
       ],
+      currentSlide: 0, // 현재 슬라이드 인덱스
     };
   },
   methods: {
@@ -65,7 +66,6 @@ export default {
   background-color: white; /* 배경색상 */
   padding: 10px 20px; /* 내부 여백 */
   border: none; /* 테두리 없음 */
-  border-radius: 4px; /* 둥근 모서리 */
   cursor: pointer; /* 포인터 커서 효과 */
 }
 
@@ -109,5 +109,6 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+
 
 </style>
