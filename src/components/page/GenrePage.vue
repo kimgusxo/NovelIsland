@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CheckBoxComponent/>
+    <GenreCheckBoxComponent/>
   </div>
   <div>
     <SearchComponent/>
@@ -12,13 +12,13 @@
     
   <script>
   import SearchComponent from '../component/SearchComponent.vue'; // PageCarousel 컴포넌트 import
-  import CheckBoxComponent from '../component/CheckBoxComponent.vue'; // PageCarousel 컴포넌트 import
+  import GenreCheckBoxComponent from '../component/GenreCheckBoxComponent.vue'; // PageCarousel 컴포넌트 import
   import NovelListComponent from '../component/NovelListComponent.vue'; // PageCarousel 컴포넌트 import
 
   export default {
       components: {
         SearchComponent,
-        CheckBoxComponent,
+        GenreCheckBoxComponent,
         NovelListComponent,
       },
   };

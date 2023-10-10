@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>체크박스 목록</h2>
+    <h2>연재처</h2>
     <div class="grid-container">
       <div v-for="item in items" :key="item.id" class="grid-item">
         <input type="checkbox" v-model="item.checked">
