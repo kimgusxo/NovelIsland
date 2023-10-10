@@ -41,13 +41,13 @@ export default {
     box-sizing: border-box;
     margin-bottom: 16px;
     border-radius: 6px;
-    background-color: #F8F8F8;
+    background-color: white;
 }
 #login-form > input::placeholder{
-    color: #D2D2D2;
+    color: gray;
 }
 #login-form > input[type="submit"]{
-    color: #fff;
+    color: white;
     font-size: 16px;
     background-color: red;
     margin-top: 20px;
