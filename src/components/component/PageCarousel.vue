@@ -10,7 +10,7 @@
         <slide v-for="(image, index) in images" :key="index">
           <div class="slide-content">
             <img :src="image" class="carousel-image" />
-            <h1>소설이름</h1>
+            <h1 @click="goToResultPage">소설이름</h1>
           </div>
         </slide>
       </carousel>
@@ -45,6 +45,9 @@ export default {
     nextSlide() {
       this.$refs.carouselRef.next();
     },
+    goToResultPage() {
+      this.$router.push('/result');
+    }
   },
 };
 </script>
