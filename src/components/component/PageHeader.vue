@@ -27,8 +27,8 @@
     <div class="auth-links">
       <template v-if="isLoggedIn">
         <!-- 로그인된 경우 -->
-        <div><span @click="goToMyPage">마이페이지</span></div>
         <div><span @click="logout">로그아웃</span></div>
+        <div><span @click="goToMyPage">마이페이지</span></div>
       </template>
       <template v-else>
         <!-- 로그인되지 않은 경우 -->

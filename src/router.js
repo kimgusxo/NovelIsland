@@ -7,6 +7,9 @@ import SearchPage from './components/page/SearchPage'
 import ResultPage from './components/page/ResultPage'
 import SignIn from './components/page/SignIn'
 import SignUp from './components/page/SignUp'
+import MyPage from './components/page/MyPage'
+import InfomationPage from './components/page/InfomationPage'
+import BookMarkPage from './components/page/BookMarkPage'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -50,6 +53,21 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: SignUp,
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: MyPage,
+    },
+    {
+      path: '/infomation',
+      name: 'infomation',
+      component: InfomationPage,
+    },
+    {
+      path: '/bookmark',
+      name: 'bookmark',
+      component: BookMarkPage,
     },
   ],
 })
