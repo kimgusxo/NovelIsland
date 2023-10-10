@@ -16,6 +16,16 @@
       </carousel>
       <button @click="nextSlide" class="carousel-button next-button"><font-awesome-icon :icon="['fas', 'arrow-right']" /></button>
     </div>
+
+    <div class="carousel-indicators">
+      <span
+        v-for="(image, index) in images"
+        :key="index"
+        class="indicator"
+        :class="{ active: index === currentSlide }"
+        @click="goToSlide(index)"
+      ></span>
+    </div>
   </div>
 </template>
 
@@ -40,10 +50,20 @@ export default {
   },
   methods: {
     prevSlide() {
-      this.$refs.carouselRef.prev();
+      if (this.currentSlide > 0) {
+        this.$refs.carouselRef.prev();
+        this.currentSlide = this.currentSlide - 1;
+      }
     },
     nextSlide() {
-      this.$refs.carouselRef.next();
+      if (this.currentSlide < this.images.length - 1) {
+        this.$refs.carouselRef.next();
+        this.currentSlide = this.currentSlide + 1;
+      }
+    },
+    goToSlide(index) {
+      this.$refs.carouselRef.slideTo(index)
+      this.currentSlide = index;
     },
     goToResultPage() {
       this.$router.push('/result');
@@ -113,5 +133,25 @@ export default {
   justify-content: space-between;
 }
 
+/* 인디케이터 스타일링 */
+.carousel-indicators {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #888;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator.active {
+  background-color: red; /* 활성화된 슬라이드의 배경색 변경 */
+}
 
 </style>
