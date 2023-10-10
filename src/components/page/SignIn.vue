@@ -1,11 +1,11 @@
 <template>
     <div class="login-wrapper">
         <h2>로그인</h2>
-        <form method="post" action="서버의url" id="login-form">
+        <form @submit.prevent="login" id="login-form">
             <h3 style="text-align: left">아이디</h3>
-            <input type="text" name="userName" placeholder="Id">
+            <input type="text" v-model="userName" placeholder="Id">
             <h3 style="text-align: left">비밀번호</h3>
-            <input type="password" name="userPassword" placeholder="Password">
+            <input type="password" v-model="userPassword" placeholder="Password">
             <label for="remember-check">
                 <input type="checkbox" id="remember-check">아이디 저장하기
             </label>
@@ -16,8 +16,27 @@
 
 <script>
 export default {
-    
-}
+    data() {
+        return {
+            userName: '',
+            userPassword: '',
+        };
+    },
+    methods: {
+        login() {
+            // 여기에서 실제 인증을 수행하거나 서버와 통신해야 합니다.
+            if (this.userName === 'abc' && this.userPassword === '123') {
+                // 인증 성공
+                this.$store.commit('setLoggedInStatus', true);
+                // 로그인 후 메인 페이지로 리다이렉션
+                this.$router.push('/');
+            } else {
+                // 인증 실패 처리
+                alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+            }
+        },
+    },
+};
 </script>
 
 <style>

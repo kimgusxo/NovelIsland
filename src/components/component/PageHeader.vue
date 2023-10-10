@@ -25,14 +25,27 @@
       </div>
     </div>
     <div class="auth-links">
-      <div><span @click="goToSignInPage">로그인</span></div>
-      <div><span @click="goToSignUpPage">회원가입</span></div>
+      <template v-if="isLoggedIn">
+        <!-- 로그인된 경우 -->
+        <div><span @click="goToMyPage">마이페이지</span></div>
+        <div><span @click="logout">로그아웃</span></div>
+      </template>
+      <template v-else>
+        <!-- 로그인되지 않은 경우 -->
+        <div><span @click="goToSignInPage">로그인</span></div>
+        <div><span @click="goToSignUpPage">회원가입</span></div>
+      </template>
     </div>
   </header>
 </template>
 
 <script>
 export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn;
+    },
+  },
   methods: {
     goToMainPage() {
       this.$router.push('/');
@@ -54,6 +67,13 @@ export default {
     },
     goToSignUpPage() {
       this.$router.push('/signup');
+    },
+    goToMyPage() {
+      this.$router.push('/mypage');
+    },
+    logout() {
+      this.$store.commit('setLoggedInStatus', false);
+      this.$router.push('/');
     },
   },
 };
