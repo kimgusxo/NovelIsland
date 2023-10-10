@@ -25,7 +25,7 @@ export default {
 };
 </script>
   
-  <style scoped>
+<style scoped>
   .ranking {
     text-align: left;
     margin: 30px;
@@ -56,5 +56,5 @@ export default {
   .title {
     margin-top: 5px;
   }
-  </style>
+</style>
   
