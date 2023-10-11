@@ -1,7 +1,7 @@
 <template>
   <div class="ranking">
     <h1>
-      <font-awesome-icon :icon="['fas', 'crown']" />
+      <font-awesome-icon style="color: red;" :icon="['fas', 'crown']" />
       랭킹순
     </h1>
     <div class="grid-container">
@@ -14,11 +14,15 @@
     </div>
     <div class="pagination">
       <div class="page-bar">
-        <button @click="prevPage" :disabled="currentPage === 1">이전</button>
+        <button @click="prevPage" :disabled="currentPage === 1">
+          <font-awesome-icon :icon="['fas', 'angle-left']" />
+        </button>
         <div class="page" v-for="page in totalPages" :key="page">
           <button @click="goToPage(page)" :class="{ active: currentPage === page }">{{ page }}</button>
         </div>
-        <button @click="nextPage" :disabled="currentPage === totalPages">다음</button>
+        <button @click="nextPage" :disabled="currentPage === totalPages">
+          <font-awesome-icon :icon="['fas', 'angle-right']" />
+        </button>
       </div>
     </div>
   </div>
@@ -113,15 +117,17 @@ export default {
 }
 
 .pagination button {
-  background-color: red;
-  color: white;
+  background-color: white;
+  color: red;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .pagination button:disabled {
-  background-color: #ccc;
+  background-color: white;
+  color: gray;
   cursor: not-allowed;
 }
 
@@ -137,16 +143,14 @@ export default {
 
 .page button {
   background-color: transparent;
-  border: 1px solid #ccc;
   color: #333;
   padding: 5px 10px;
   cursor: pointer;
 }
 
 .page button.active {
-  background-color: red;
-  color: white;
-  border: 1px;
+  background-color: white;
+  color: red;
 }
 
 .page-bar button {

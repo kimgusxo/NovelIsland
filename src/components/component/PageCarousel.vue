@@ -1,7 +1,7 @@
 <template>
   <div class="carousel">
     <h1>
-      <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+      <font-awesome-icon style="color: red;" :icon="['fas', 'thumbs-up']" />
       오늘의 추천도서
     </h1>
     <div class="carousel-container">
