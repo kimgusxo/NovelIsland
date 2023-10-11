@@ -50,7 +50,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .signUp-wrapper {
     width: 500px; /* 원하는 너비 설정 */

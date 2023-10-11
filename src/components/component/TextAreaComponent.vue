@@ -24,7 +24,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .textarea {
     margin-top: 10px;
     margin-bottom: 10px;

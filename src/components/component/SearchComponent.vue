@@ -24,7 +24,7 @@
   };
 </script>
   
-<style>
+<style scoped>
 
 .search {
   margin-top: 10px;
