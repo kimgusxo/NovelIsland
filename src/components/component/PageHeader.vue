@@ -87,7 +87,7 @@ export default {
   height: 75px; /* 헤더의 높이 설정 */
   padding: 1rem;
   color: white;
-  background: red;
+  background: -webkit-repeating-radial-gradient();
   font-weight: bold;
   display: flex;
   justify-content: space-between;

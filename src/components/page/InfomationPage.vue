@@ -1,10 +1,10 @@
 <template>
-    <div class="signUp-wrapper">
+    <div class="infomation-wrapper">
         <h2>정보 수정</h2>
-        <form method="post" action="서버의url" id="signUp-form">
+        <form method="post" action="서버의url" id="infomation-form">
             <h3 style="text-align: left">아이디</h3>
             <div class = "input-wrapper">
-                <input type="text" name="userName" placeholder="Id">
+                <input type="text" name="userName" v-model="userName" placeholder="Id">
                 <button @click="checkDuplicate">중복확인</button>
             </div>
             
@@ -26,8 +26,9 @@
 export default {
     data() {
     return {
-      password: '',
-      passwordConfirmation: ''
+      userName: 'abc',
+      password: '123',
+      passwordConfirmation: '123'
     }
     },
 
@@ -52,20 +53,20 @@ export default {
 
 <style scoped>
 
-.signUp-wrapper {
+.infomation-wrapper {
     width: 500px; /* 원하는 너비 설정 */
     height: 100%;
     margin: 0 auto; /* 가운데 정렬 */
     padding: 20px; /* 내부 여백 추가 */
 }
 
-.signUp-wrapper > h2{
+.infomation-wrapper > h2{
     font-size: 42px;
     color: red;
     margin-bottom: 20px;
 }
 
-#signUp-form > input{
+#infomation-form > input{
     width: 100%;
     height: 48px;
     padding: 0 10px;
@@ -74,10 +75,10 @@ export default {
     border-radius: 6px;
     background-color: white;
 }
-#signUp-form > input::placeholder{
+#infomation-form > input::placeholder{
     color: gray;
 }
-#signUp-form > input[type="submit"]{
+#infomation-form > input[type="submit"]{
     color: white;
     font-size: 16px;
     background-color: red;

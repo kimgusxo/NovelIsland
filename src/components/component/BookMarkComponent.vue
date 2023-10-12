@@ -1,13 +1,16 @@
 <template>
-      <div class="grid-container">
-        <div v-for="(novel, index) in novels" :key="index" class="grid-item">
-          <div class="grid-item-content">
-            <img :src="novel.imageUrl" alt="Novel Image" class="image" />
-            <p class="title">{{ novel.title }}</p>
-          </div>
-        </div>
+  <div class="grid-container">
+    <div v-for="(novel, index) in novels" :key="index" class="grid-item">
+      <div class="grid-item-content">
+        <img :src="novel.imageUrl" alt="Novel Image" class="image" />
+        <p class="title">{{ novel.title }}</p>
       </div>
-  </template>
+    </div>
+    <div class="grid-item grid-more">
+      <p class="more-text" @click="goToBookMarkPage">더보기</p>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
@@ -21,6 +24,11 @@ export default {
         // 필요한 만큼 소설 데이터를 추가합니다.
       ],
     };
+  },
+  methods: {
+    goToBookMarkPage() {
+      this.$router.push('/bookmark');
+    },
   },
 };
 </script>
@@ -56,5 +64,18 @@ export default {
   .title {
     margin-top: 5px;
   }
+
+/* "더보기" 텍스트 스타일 */
+.grid-more {
+  color: red; /* 글자색 설정 */
+  text-align: center;
+  font-weight: bold; /* 글꼴 굵기 설정 */
+  cursor: pointer;
+}
+
+.more-text {
+  margin: 0;
+  padding: 10px;
+}
 </style>
   
