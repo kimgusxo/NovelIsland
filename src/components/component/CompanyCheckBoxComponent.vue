@@ -3,7 +3,11 @@
     <h2>연재처</h2>
     <div class="grid-container">
       <div v-for="item in items" :key="item.id" class="grid-item">
-        <input type="checkbox" v-model="item.checked">
+        <font-awesome-icon
+        :icon="['fas', 'check']"
+        :class="{ checked: item.checked }"
+        @click="toggleCheckbox(item)"
+        />
         {{ item.label }}
       </div>
     </div>
@@ -27,6 +31,11 @@ export default {
       return this.items.filter(item => item.checked).map(item => item.label);
     },
   },
+  methods: {
+    toggleCheckbox(item) {
+     item.checked = !item.checked; // 체크 상태를 토글합니다.
+   },
+  },
 };
 </script>
 
@@ -41,4 +50,10 @@ export default {
   border: 1px solid #ccc; /* 그리드 아이템에 테두리 추가 */
   padding: 10px;
 }
+
+.grid-item .checked {
+  color: red; /* 체크된 상태의 색상 (예: 녹색) */
+  cursor: pointer;
+}
+
 </style>
