@@ -27,13 +27,33 @@
     <div class="auth-links">
       <template v-if="isLoggedIn">
         <!-- 로그인된 경우 -->
-        <div><span @click="logout">로그아웃</span></div>
-        <div><span @click="goToMyPage">마이페이지</span></div>
+        <div>
+          <span @click="logout">
+            <font-awesome-icon :icon="['fas', 'lock-open']" />
+            로그아웃
+          </span>
+        </div>
+        <div>
+          <span @click="goToMyPage">
+            <font-awesome-icon :icon="['fas', 'gear']" />
+            마이페이지
+          </span>
+        </div>
       </template>
       <template v-else>
         <!-- 로그인되지 않은 경우 -->
-        <div><span @click="goToSignInPage">로그인</span></div>
-        <div><span @click="goToSignUpPage">회원가입</span></div>
+        <div>
+          <span @click="goToSignInPage">
+            <font-awesome-icon :icon="['fas', 'lock']" />
+            로그인
+          </span>
+        </div>
+        <div>
+          <span @click="goToSignUpPage">
+            <font-awesome-icon :icon="['fas', 'pen']" />
+            회원가입
+          </span>
+        </div>
       </template>
     </div>
   </header>

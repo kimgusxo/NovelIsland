@@ -9,11 +9,18 @@
   <div class="grid-container">
     <div v-for="(novel, index) in novels" :key="index" class="grid-item">
       <div class="grid-item-content">
+        <font-awesome-icon
+          :icon="['fas', 'heart']"
+          class="bookmarkIcon"
+          :class="{ 'bookmarked': novel.isBookmarked }"
+          @click="toggleBookmark(novel)"
+        />
         <img :src="novel.imageUrl" alt="Novel Image" class="image" />
-          <p class="title">{{ novel.title }}</p>
+        <p class="title">{{ novel.title }}</p>
       </div>
     </div>
   </div>
+
 
   <div class="pagination">
       <div class="page-bar">
@@ -70,6 +77,9 @@ export default {
     goToPage(page) {
       this.currentPage = page;
     },
+    toggleBookmark(novel) {
+      novel.isBookmarked = !novel.isBookmarked;
+    },
   },
 };
 </script>
@@ -104,10 +114,6 @@ export default {
     align-items: center;
   }
   
-  .grid-item-content {
-    text-align: center;
-  }
-  
   .image {
     max-width: 100%; /* 이미지를 그리드 아이템 내에 맞춥니다. */
   }
@@ -116,7 +122,18 @@ export default {
     margin-top: 5px;
   }
 
-  .pagination {
+.bookmarkIcon {
+  position: absolute;
+  font-size: 40px;
+  color: #333;
+  margin: 5px;
+}
+
+.bookmarked {
+  color: red; /* 북마크된 아이콘의 다른 색상 */
+}
+
+.pagination {
   text-align: center;
   margin-top: 20px;
 }
