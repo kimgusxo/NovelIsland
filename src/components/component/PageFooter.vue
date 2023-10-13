@@ -51,6 +51,7 @@ export default {
   text-align: center;
   padding: 20px 0;
   height: 150px;
+  margin-top: 5px;
 }
 
 .container {

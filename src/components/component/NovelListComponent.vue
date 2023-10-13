@@ -1,13 +1,34 @@
 <template>
-      <div class="grid-container">
-        <div v-for="(novel, index) in novels" :key="index" class="grid-item">
-          <div class="grid-item-content">
-            <img :src="novel.imageUrl" alt="Novel Image" class="image" />
-            <p class="title">{{ novel.title }}</p>
-          </div>
-        </div>
+  <div class="sort">
+    <select v-model="selectedItem" class="custom-select">
+      <option value="option1">오름차순</option>
+      <option value="option2">내림차순</option>
+    </select>
+  </div>
+      
+  <div class="grid-container">
+    <div v-for="(novel, index) in novels" :key="index" class="grid-item">
+      <div class="grid-item-content">
+        <img :src="novel.imageUrl" alt="Novel Image" class="image" />
+          <p class="title">{{ novel.title }}</p>
       </div>
-  </template>
+    </div>
+  </div>
+
+  <div class="pagination">
+      <div class="page-bar">
+        <button @click="prevPage" :disabled="currentPage === 1">
+          <font-awesome-icon :icon="['fas', 'angle-left']" />
+        </button>
+        <div class="page" v-for="page in totalPages" :key="page">
+          <button @click="goToPage(page)" :class="{ active: currentPage === page }">{{ page }}</button>
+        </div>
+        <button @click="nextPage" :disabled="currentPage === totalPages">
+          <font-awesome-icon :icon="['fas', 'angle-right']" />
+        </button>
+      </div>
+    </div>
+</template>
 
 <script>
 export default {
@@ -20,17 +41,55 @@ export default {
         { title: '소설 4', imageUrl: 'https://comicthumb-phinf.pstatic.net/20150130_144/pocket_1422603514525Mxe6h_JPEG/%BC%F6%B6%F3%BF%D5_%BD%C5%B1%D4_%C7%A5%C1%F6_%C0%CE%C5%B8%C0%CC%C6%B2.JPG?type=m600x314' },
         // 필요한 만큼 소설 데이터를 추가합니다.
       ],
+      selectedItem: 'option1',
+      currentPage: 1,
+      itemsPerPage: 32, // 페이지당 아이템 수를 4개로 설정
     };
+  },
+  computed: {
+    paginatedNovels() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.novels.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      return Math.ceil(this.novels.length / this.itemsPerPage);
+    },
+  },
+  methods: {
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage -= 1;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage += 1;
+      }
+    },
+    goToPage(page) {
+      this.currentPage = page;
+    },
   },
 };
 </script>
   
 <style scoped>
-  .ranking {
+  .sort {
     text-align: left;
-    margin: 30px;
+    margin-bottom: 10px;
   }
-  
+
+  .custom-select {
+    padding: 10px 20px; /* 위아래로 10px, 좌우로 20px의 패딩 추가 */
+    font-size: 16px; /* 텍스트 크기 설정 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
+    background-color: white; /* 배경색 설정 */
+    color: red;
+    width: 200px; /* 원하는 너비로 설정 */
+  }
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 1fr); /* 8x8 그리드 생성 */
@@ -56,5 +115,51 @@ export default {
   .title {
     margin-top: 5px;
   }
+
+  .pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: white;
+  color: red;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.pagination button:disabled {
+  background-color: white;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.page-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  margin: 0 5px;
+}
+
+.page button {
+  background-color: transparent;
+  color: #333;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.page button.active {
+  background-color: white;
+  color: red;
+}
+
+.page-bar button {
+  margin: 0 10px;
+}
 </style>
   
