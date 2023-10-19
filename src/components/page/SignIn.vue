@@ -63,9 +63,13 @@ export default {
     background-color: white;
 }
 #login-form > input::placeholder{
+    font-family: 'bmjua';
+
     color: gray;
 }
 #login-form > input[type="submit"]{
+    font-family: 'bmjua';
+
     color: white;
     font-size: 16px;
     background-color: red;

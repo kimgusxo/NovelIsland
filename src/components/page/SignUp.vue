@@ -75,9 +75,12 @@ export default {
     background-color: white;
 }
 #signUp-form > input::placeholder{
-    color: gray;
+  font-family: 'bmjua';  
+  color: gray;
 }
 #signUp-form > input[type="submit"]{
+    font-family: 'bmjua';
+
     color: white;
     font-size: 16px;
     background-color: red;
@@ -91,6 +94,8 @@ export default {
   margin-bottom: 10px;
 }
 .input-wrapper > input {
+  font-family: 'bmjua';
+
   flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
   height: 48px;
   font-size: 16px;
@@ -99,6 +104,8 @@ export default {
   box-sizing: border-box;
 }
 .input-wrapper > button {
+  font-family: 'bmjua';
+
   height: 48px;
   font-size: 16px;
   background-color: red;
