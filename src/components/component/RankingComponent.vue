@@ -142,6 +142,8 @@ export default {
 }
 
 .page button {
+  font-family: 'bmjua';
+
   background-color: transparent;
   color: #333;
   padding: 5px 10px;
@@ -149,6 +151,8 @@ export default {
 }
 
 .page button.active {
+  font-family: 'bmjua';
+
   background-color: white;
   color: red;
 }

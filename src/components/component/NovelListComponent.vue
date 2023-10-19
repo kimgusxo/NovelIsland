@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       novels: [
-        { title: '소설 1', imageUrl: 'https://comicthumb-phinf.pstatic.net/20141010_110/pocket_1412915784499GktmY_JPEG/cloud.jpg?type=m600x314' },
+         { title: '소설 1', imageUrl: 'https://comicthumb-phinf.pstatic.net/20141010_110/pocket_1412915784499GktmY_JPEG/cloud.jpg?type=m600x314' },
         { title: '소설 2', imageUrl: 'https://comicthumb-phinf.pstatic.net/20160216_216/pocket_14556178273891qpTh_JPEG/h300.jpg?type=m600x314' },
         { title: '소설 3', imageUrl: 'https://comicthumb-phinf.pstatic.net/20230615_64/pocket_1686819221240B5JFh_JPEG/cover_.jpg?type=m600x314' },
         { title: '소설 4', imageUrl: 'https://comicthumb-phinf.pstatic.net/20150130_144/pocket_1422603514525Mxe6h_JPEG/%BC%F6%B6%F3%BF%D5_%BD%C5%B1%D4_%C7%A5%C1%F6_%C0%CE%C5%B8%C0%CC%C6%B2.JPG?type=m600x314' },
@@ -164,6 +164,8 @@ export default {
 }
 
 .page button {
+  font-family: 'bmjua';
+  
   background-color: transparent;
   color: #333;
   padding: 5px 10px;
@@ -171,6 +173,8 @@ export default {
 }
 
 .page button.active {
+  font-family: 'bmjua';
+
   background-color: white;
   color: red;
 }

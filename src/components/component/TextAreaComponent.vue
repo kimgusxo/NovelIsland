@@ -32,6 +32,8 @@
   }
   
   .textarea-box {
+    font-family: 'bmjua';
+ 
     font-size: 18px; /* 입력 텍스트의 글꼴 크기를 조정합니다. */
     width: 80%; /* 입력 상자의 폭을 조정합니다. */
     height: 400px;
@@ -39,13 +41,15 @@
   }
   
   .textarea-button {
+    font-family: 'bmjua';
+
     padding: 10px 20px; /* 버튼에 패딩을 추가하여 더 크게 만듭니다. */
     font-size: 18px; /* 버튼 텍스트의 글꼴 크기를 조정합니다. */
     border: none; /* 버튼의 테두리를 제거합니다. */
     cursor: pointer; /* 마우스를 올릴 때 커서를 포인터로 변경합니다. */
     margin-left: 5px;
-    color: white;
-    background: red;
+    color: red;
+    background: white;
   }
   </style>
   
