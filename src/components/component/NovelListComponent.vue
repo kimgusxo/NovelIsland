@@ -7,7 +7,7 @@
   </div>
       
   <div class="grid-container">
-    <div v-for="(novel, index) in novels" :key="index" class="grid-item">
+    <div v-for="(novel, index) in paginatedNovels" :key="index" class="grid-item">
       <div class="grid-item-content">
         <font-awesome-icon
           :icon="['fas', 'heart']"
@@ -15,8 +15,8 @@
           :class="{ 'bookmarked': novel.isBookmarked }"
           @click="toggleBookmark(novel)"
         />
-        <img :src="novel.imageUrl" alt="Novel Image" class="image" />
-        <p class="title">{{ novel.title }}</p>
+        <img :src="novel.novelThumbnail" alt="Novel Image" class="image" />
+        <p class="title">{{ novel.novelName }}</p>
       </div>
     </div>
   </div>
@@ -38,16 +38,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
-      novels: [
-         { title: '소설 1', imageUrl: 'https://comicthumb-phinf.pstatic.net/20141010_110/pocket_1412915784499GktmY_JPEG/cloud.jpg?type=m600x314' },
-        { title: '소설 2', imageUrl: 'https://comicthumb-phinf.pstatic.net/20160216_216/pocket_14556178273891qpTh_JPEG/h300.jpg?type=m600x314' },
-        { title: '소설 3', imageUrl: 'https://comicthumb-phinf.pstatic.net/20230615_64/pocket_1686819221240B5JFh_JPEG/cover_.jpg?type=m600x314' },
-        { title: '소설 4', imageUrl: 'https://comicthumb-phinf.pstatic.net/20150130_144/pocket_1422603514525Mxe6h_JPEG/%BC%F6%B6%F3%BF%D5_%BD%C5%B1%D4_%C7%A5%C1%F6_%C0%CE%C5%B8%C0%CC%C6%B2.JPG?type=m600x314' },
-        // 필요한 만큼 소설 데이터를 추가합니다.
-      ],
       selectedItem: 'option1',
       currentPage: 1,
       itemsPerPage: 32, // 페이지당 아이템 수를 4개로 설정
@@ -57,11 +52,12 @@ export default {
     paginatedNovels() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.novels.slice(startIndex, endIndex);
+      return this.sortingNovels.slice(startIndex, endIndex);
     },
     totalPages() {
-      return Math.ceil(this.novels.length / this.itemsPerPage);
+      return Math.ceil(this.sortingNovels.length / this.itemsPerPage);
     },
+    ...mapState(['sortingNovels']),
   },
   methods: {
     prevPage() {

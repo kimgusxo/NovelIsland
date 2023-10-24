@@ -7,10 +7,10 @@
     <div class="carousel-container">
       <button @click="prevSlide" class="carousel-button prev-button"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
       <carousel ref="carouselRef">
-        <slide v-for="(image, index) in images" :key="index">
+        <slide v-for="(novel, index) in randomNovels" :key="index">
           <div class="slide-content">
-            <img :src="image" class="carousel-image" />
-            <h1 @click="goToResultPage">소설이름</h1>
+            <img :src="novel.novelThumbnail" class="carousel-image" />
+            <h1 @click="goToResultPage">{{novel.novelName}}</h1>
           </div>
         </slide>
       </carousel>
@@ -19,7 +19,7 @@
 
     <div class="carousel-indicators">
       <span
-        v-for="(image, index) in images"
+        v-for="(novel, index) in randomNovels"
         :key="index"
         class="indicator"
         :class="{ active: index === currentSlide }"
@@ -32,6 +32,7 @@
 <script>
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -40,13 +41,11 @@ export default {
   },
   data() {
     return {
-      images: [
-        'https://comicthumb-phinf.pstatic.net/20141010_110/pocket_1412915784499GktmY_JPEG/cloud.jpg?type=m600x314',
-        'https://comicthumb-phinf.pstatic.net/20160216_216/pocket_14556178273891qpTh_JPEG/h300.jpg?type=m600x314',
-        'https://comicthumb-phinf.pstatic.net/20230615_64/pocket_1686819221240B5JFh_JPEG/cover_.jpg?type=m600x314',
-      ],
       currentSlide: 0, // 현재 슬라이드 인덱스
     };
+  },
+  computed: {
+    ...mapState(['randomNovels']),
   },
   methods: {
     prevSlide() {
@@ -56,7 +55,7 @@ export default {
       }
     },
     nextSlide() {
-      if (this.currentSlide < this.images.length - 1) {
+      if (this.currentSlide < this.randomNovels.length - 1) {
         this.$refs.carouselRef.next();
         this.currentSlide = this.currentSlide + 1;
       }

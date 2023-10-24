@@ -1,7 +1,10 @@
 <template>
     <div class="textarea">
       <textarea v-model="searchQuery" class="textarea-box" placeholder="검색어를 입력하세요"></textarea>
-      <button @click="search" class="textarea-button">검색</button>
+      <button @click="search" class="textarea-button">
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+        검색
+      </button>
       <h1 v-if="searchResult">검색 도서: {{ searchResult }}</h1>
     </div>
   </template>
