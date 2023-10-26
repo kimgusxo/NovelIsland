@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
 export default createStore({
   state: {
     isLoggedIn: false,
+    novel: {},
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
@@ -17,9 +18,18 @@ export default createStore({
     authorSearchQuery: '',
     genreSearchQuery: '',
   },
+  getters: {
+    // 다른 게터들...
+    getNovel(state) {
+      return state.novel;
+    },
+  },
   mutations: {
     setLoggedInStatus(state, status) {
       state.isLoggedIn = status;
+    },
+    setNovel(state, novel) {
+      state.novel = novel;
     },
     setNovelSearchQuery(state, novelSearchQuery) {
       state.novelSearchQuery = novelSearchQuery;

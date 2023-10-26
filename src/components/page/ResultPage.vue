@@ -1,13 +1,13 @@
 <template>
-    <h1>구르미 그린 달빛</h1>
+    <h1>{{ getNovel.novelName }}</h1>
     <div class="novel-info">
         <div class="novel-info-content">
-            <img :src="images[0]" class="result-image" />
+            <img :src="getNovel.novelThumbnail" class="result-image" />
         </div>
         <div class="novel-details">
-            <h2>작가이름: Adop</h2>
-            <h2>장르: 로맨스</h2>
-            <h2>연재처: 네이버</h2>
+            <h2>작가이름: {{getNovel.authorId}}</h2>
+            <h2>장르: {{getNovel.tagId}}</h2>
+            <h2>소설설명: {{getNovel.novelExplanation}}</h2>
         </div>
     </div>
     <p class="result-link">
@@ -16,13 +16,11 @@
 </template>
       
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-    data() {
-    return {
-      images: [
-        'https://comicthumb-phinf.pstatic.net/20141010_110/pocket_1412915784499GktmY_JPEG/cloud.jpg?type=m600x314',
-      ],
-    };
+  computed: {
+    ...mapGetters(['getNovel']),
   },
 }
 </script>

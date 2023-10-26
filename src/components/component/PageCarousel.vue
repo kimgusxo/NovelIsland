@@ -10,7 +10,7 @@
         <slide v-for="(novel, index) in randomNovels" :key="index">
           <div class="slide-content">
             <img :src="novel.novelThumbnail" class="carousel-image" />
-            <h1 @click="goToResultPage">{{novel.novelName}}</h1>
+            <h1 @click="goToResultPage(novel)">{{novel.novelName}}</h1>
           </div>
         </slide>
       </carousel>
@@ -64,7 +64,8 @@ export default {
       this.$refs.carouselRef.slideTo(index)
       this.currentSlide = index;
     },
-    goToResultPage() {
+    goToResultPage(novel) {
+      this.$store.commit('setNovel', novel);
       this.$router.push('/result');
     }
   },
