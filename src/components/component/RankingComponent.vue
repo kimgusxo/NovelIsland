@@ -8,7 +8,7 @@
       <div v-for="(novel, index) in paginatedNovels" :key="index" class="grid-item">
         <div class="grid-item-content">
           <img :src="novel.novelThumbnail" alt="Novel Image" class="image" />
-          <p class="title">{{ novel.novelName }}</p>
+          <p class="title" @click="goToResultPage(novel)" >{{ novel.novelName }}</p>
         </div>
       </div>
     </div>
@@ -62,6 +62,10 @@ export default {
     },
     goToPage(page) {
       this.currentPage = page;
+    },
+    goToResultPage(novel) {
+      this.$store.commit('setNovel', novel);
+      this.$router.push('/result');
     },
   },
 };

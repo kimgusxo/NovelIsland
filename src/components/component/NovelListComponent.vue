@@ -16,7 +16,7 @@
           @click="toggleBookmark(novel)"
         />
         <img :src="novel.novelThumbnail" alt="Novel Image" class="image" />
-        <p class="title">{{ novel.novelName }}</p>
+        <p class="title" @click="goToResultPage(novel)">{{ novel.novelName }}</p>
       </div>
     </div>
   </div>
@@ -75,6 +75,10 @@ export default {
     },
     toggleBookmark(novel) {
       novel.isBookmarked = !novel.isBookmarked;
+    },
+    goToResultPage(novel) {
+      this.$store.commit('setNovel', novel);
+      this.$router.push('/result');
     },
   },
 };
