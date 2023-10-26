@@ -2,39 +2,36 @@
     <div>
       <h2>장르별</h2>
       <div class="grid-container">
-        <div v-for="item in items" :key="item.id" class="grid-item">
+        <div v-for="genre in sortingGenres" :key="genre.id" class="grid-item">
           <font-awesome-icon
           :icon="['fas', 'check']"
-          :class="{ checked: item.checked }"
-          @click="toggleCheckbox(item)"
+          :class="{ checked: genre.checked }"
+          @click="toggleCheckbox(genre)"
           />
-          {{ item.label }}
+          {{ genre.tagClassification }}
         </div>
       </div>
     </div>
   </template>
   
   <script>
+  import { mapState } from 'vuex';
+
   export default {
-    data() {
-      return {
-        items: [
-          { id: 1, label: '항목 1', checked: false },
-          { id: 2, label: '항목 2', checked: false },
-          { id: 3, label: '항목 3', checked: false },
-          // 필요한 만큼 항목을 추가할 수 있습니다.
-        ],
-      };
-    },
     computed: {
       selectedItems() {
-        return this.items.filter(item => item.checked).map(item => item.label);
+        return this.sortingGenres.filter(genre => genre.checked).map(genre => genre.tagClassification);
       },
+      ...mapState(['sortingGenres']),
     },
     methods: {
-     toggleCheckbox(item) {
-       item.checked = !item.checked; // 체크 상태를 토글합니다.
-     },
+      toggleCheckbox(genre) {
+        genre.checked = !genre.checked;
+        const selectedGenreIds = this.sortingGenres
+          .filter((genre) => genre.checked)
+          .map((genre) => genre.tagId);
+        this.$store.dispatch('updateSelectedGenres', selectedGenreIds);
+      },
     },
   };
   </script>

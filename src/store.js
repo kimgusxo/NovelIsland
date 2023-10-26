@@ -11,10 +11,11 @@ export default createStore({
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
+    sortingGenres: [],
+    selectedGenres: [],
     novelSearchQuery: '',
     authorSearchQuery: '',
     genreSearchQuery: '',
-    genres: [],
   },
   mutations: {
     setLoggedInStatus(state, status) {
@@ -38,15 +39,25 @@ export default createStore({
     setRandomNovels(state, randomNovels) {
       state.randomNovels = randomNovels;
     },
+    setSortingGenres(state, sortingGenres) {
+      state.sortingGenres = sortingGenres;
+    },
+    setSelectedGenres(state, selectedGenres) {
+      state.selectedGenres = selectedGenres;
+    },
   },
   actions: {
+    updateSelectedGenres(context, selectedGenres) {
+      context.commit('setSelectedGenres', selectedGenres);
+    },
+
     fetchSortingNovels(context) {
       axiosInstance.get('/novel/get/sorting')
         .then((response) => {
           context.commit('setSortingNovels', response.data.data);
         })
         .catch((error) => {
-          console.error('데이터 요청 중 오류 발생:', error);
+          alert(error.response.data.message);
         });
     },
     searchNovelsInNovelPage(context) {
@@ -61,13 +72,22 @@ export default createStore({
           context.commit('setSortingNovels', response.data.data);
         })
         .catch((error) => {
-          console.error('데이터 요청 중 오류 발생:', error);
+          alert(error.response.data.message);
         });
     },
     searchNovelsInGenrePage(context) {
-      axiosInstance.get('/novel/find/novelName', {
+      const selectedGenreIds = context.state.selectedGenres;
+      
+      if (selectedGenreIds.length === 0) {
+        // selectedGenreIds가 비어있을 때 경고 메시지를 표시하고 함수를 종료
+        alert('선택한 장르가 없습니다. 검색을 진행할 수 없습니다.');
+        return;
+      }
+      
+      axiosInstance.get('/novel/find/novelName/and/tagId', {
         params: {
-          novelName: context.state.novelSearchQuery, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
+          novelName: context.state.genreSearchQuery,
+          tagIdList: selectedGenreIds.join(','),
           page: 0, // 페이지 번호
           size: 320 // 한 페이지에 표시할 항목 수
         }
@@ -76,7 +96,7 @@ export default createStore({
           context.commit('setSortingNovels', response.data.data);
         })
         .catch((error) => {
-          console.error('데이터 요청 중 오류 발생:', error);
+          alert(error.response.data.message);
         });
     },
     fetchRankingNovels(context) {
@@ -85,7 +105,7 @@ export default createStore({
           context.commit('setRankingNovels', response.data.data);
         })
         .catch((error) => {
-          console.error('데이터 요청 중 오류 발생:', error);
+          alert(error.response.data.message);
         });
     },
     fetchRandomNovels(context) {
@@ -94,7 +114,16 @@ export default createStore({
           context.commit('setRandomNovels', response.data.data);
         })
         .catch((error) => {
-          console.error('데이터 요청 중 오류 발생:', error);
+          alert(error.response.data.message);
+        });
+    },
+    fetchSortingGenres(context) {
+      axiosInstance.get('/tag/get/sorting')
+        .then((response) => {
+          context.commit('setSortingGenres', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
         });
     },
   }
