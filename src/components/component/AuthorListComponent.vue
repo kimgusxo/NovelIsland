@@ -10,7 +10,7 @@
     <div v-for="(author, index) in paginatedAuthors" :key="index" class="grid-item">
       <div class="grid-item-content">
         <img :src="require('@/assets/authorProfile.webp')" class="image" />
-        <p class="title" @click="goToAuthorDetailPage(author.authorId)">{{ author.authorName }}</p>
+        <p class="title" @click="goToAuthorDetailPage(author)">{{ author.authorName }}</p>
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
       this.currentPage = page;
     },
     goToAuthorDetailPage(author) {
-      this.$store.commit('setAuthorId', author.authorId);
+      this.$store.commit('setAuthor', author);
       this.$router.push('/authordetail');
     },
   },

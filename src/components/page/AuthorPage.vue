@@ -3,7 +3,8 @@
     <h2>작가</h2>
   </div>
   <div>
-    <SearchComponent/>
+    <SearchComponent searchAction="searchAuthorsInAuthorPage" 
+     setSearchQueryMutation="setAuthorSearchQuery"/>
   </div>
   <div>
     <AuthorListComponent :sortingAuthors="sortingAuthors"/>

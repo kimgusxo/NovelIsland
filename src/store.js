@@ -9,7 +9,7 @@ export default createStore({
   state: {
     isLoggedIn: false,
     novel: {},
-    authorId: '',
+    author: {},
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
@@ -25,6 +25,9 @@ export default createStore({
     getNovel(state) {
       return state.novel;
     },
+    getAuthor(state) {
+      return state.author;
+    }
   },
   mutations: {
     setLoggedInStatus(state, status) {
@@ -33,8 +36,8 @@ export default createStore({
     setNovel(state, novel) {
       state.novel = novel;
     },
-    setAuthorId(state, authorId) {
-      state.authorId = authorId;
+    setAuthor(state, author) {
+      state.author = author;
     },
     setNovelSearchQuery(state, novelSearchQuery) {
       state.novelSearchQuery = novelSearchQuery;
@@ -68,7 +71,6 @@ export default createStore({
     updateSelectedGenres(context, selectedGenres) {
       context.commit('setSelectedGenres', selectedGenres);
     },
-
     fetchSortingNovels(context) {
       axiosInstance.get('/novel/get/sorting')
         .then((response) => {
@@ -117,6 +119,21 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
+    searchNovelsByAuthorId(context) {
+      axiosInstance.get('/novel/find/authorId', {
+        params: {
+          authorId: context.state.author.authorId, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
+          page: 0, // 페이지 번호
+          size: 320 // 한 페이지에 표시할 항목 수
+        }
+      })
+        .then((response) => {
+          context.commit('setSortingNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
     fetchRankingNovels(context) {
       axiosInstance.get('/novel/get/ranking')
         .then((response) => {
@@ -137,6 +154,21 @@ export default createStore({
     },
     fetchSortingAuthors(context) {
       axiosInstance.get('/author/get/sorting')
+        .then((response) => {
+          context.commit('setSortingAuthors', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    searchAuthorsInAuthorPage(context) {
+      axiosInstance.get('/author/find/authorName', {
+        params: {
+          authorName: context.state.authorSearchQuery, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
+          page: 0, // 페이지 번호
+          size: 320 // 한 페이지에 표시할 항목 수
+        }
+      })
         .then((response) => {
           context.commit('setSortingAuthors', response.data.data);
         })
