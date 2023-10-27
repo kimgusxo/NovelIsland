@@ -9,9 +9,11 @@ export default createStore({
   state: {
     isLoggedIn: false,
     novel: {},
+    authorId: '',
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
+    sortingAuthors: [],
     sortingGenres: [],
     selectedGenres: [],
     novelSearchQuery: '',
@@ -31,6 +33,9 @@ export default createStore({
     setNovel(state, novel) {
       state.novel = novel;
     },
+    setAuthorId(state, authorId) {
+      state.authorId = authorId;
+    },
     setNovelSearchQuery(state, novelSearchQuery) {
       state.novelSearchQuery = novelSearchQuery;
     },
@@ -48,6 +53,9 @@ export default createStore({
     },
     setRandomNovels(state, randomNovels) {
       state.randomNovels = randomNovels;
+    },
+    setSortingAuthors(state, sortingAuthors) {
+      state.sortingAuthors = sortingAuthors;
     },
     setSortingGenres(state, sortingGenres) {
       state.sortingGenres = sortingGenres;
@@ -122,6 +130,15 @@ export default createStore({
       axiosInstance.get('/novel/get/random')
         .then((response) => {
           context.commit('setRandomNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    fetchSortingAuthors(context) {
+      axiosInstance.get('/author/get/sorting')
+        .then((response) => {
+          context.commit('setSortingAuthors', response.data.data);
         })
         .catch((error) => {
           alert(error.response.data.message);

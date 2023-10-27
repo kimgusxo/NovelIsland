@@ -4,6 +4,7 @@ import NovelPage from './components/page/NovelPage'
 import AuthorPage from './components/page/AuthorPage'
 import GenrePage from './components/page/GenrePage'
 import SearchPage from './components/page/SearchPage'
+import AuthorDetailPage from './components/page/AuthorDetailPage'
 import ResultPage from './components/page/ResultPage'
 import SignIn from './components/page/SignIn'
 import SignUp from './components/page/SignUp'
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       component: SearchPage,
+    },
+    {
+      path: '/authordetail',
+      name: 'authordetail',
+      component: AuthorDetailPage,
     },
     {
       path: '/result',
