@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import axios from 'axios'; // Axios를 import
+import router from './router';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8081', // 이 부분에 API 서버의 주소와 포트를 설정하세요
@@ -7,7 +8,11 @@ const axiosInstance = axios.create({
 
 export default createStore({
   state: {
+    userId: '',
+    userPassword: '',
+    user: {},
     isLoggedIn: false,
+    duplicateToken: false,
     novel: {},
     author: {},
     sortingNovels: [],
@@ -30,8 +35,20 @@ export default createStore({
     }
   },
   mutations: {
-    setLoggedInStatus(state, status) {
-      state.isLoggedIn = status;
+    setUserId(state, userId) {
+      state.userId = userId;
+    },
+    setUserPassword(state, userPassword) {
+      state.userPassword = userPassword;
+    },
+    setUser(state, user) {
+      state.user = user;
+    },
+    setLoggedInStatus(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
+    },
+    setDuplicateToken(state, duplicateToken) {
+      state.duplicateToken = duplicateToken;
     },
     setNovel(state, novel) {
       state.novel = novel;
@@ -70,6 +87,48 @@ export default createStore({
   actions: {
     updateSelectedGenres(context, selectedGenres) {
       context.commit('setSelectedGenres', selectedGenres);
+    },
+    login(context) {
+      axiosInstance.post('/login/signIn', { 
+          userId: context.state.userId, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
+          userPassword: context.state.userPassword
+      })
+        .then((response) => {
+          context.commit('setUser', response.data.data);
+          context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
+          router.push('/'); // 리다이렉트
+        })
+        .catch((error) => {
+            alert(error.response.data.message);
+        });
+    },
+    duplicateCheck(context) {
+      axiosInstance.get('login/duplicateCheck', {
+        params: {
+          userId: context.state.userId,
+        }
+      })
+      .then((response) => {
+        context.commit('setDuplicateToken', response.data.data);
+        alert("아이디가 사용가능합니다.")
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+    },
+    signUp(context) {
+      axiosInstance.post('/login/signUp', { 
+          userId: context.state.userId, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
+          userPassword: context.state.userPassword
+      })
+        .then((response) => {
+          context.commit('setUser', response.data.data);
+          context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
+          router.push('/'); // 리다이렉트
+        })
+        .catch((error) => {
+            alert(error.response.data.message);
+        });
     },
     fetchSortingNovels(context) {
       axiosInstance.get('/novel/get/sorting')

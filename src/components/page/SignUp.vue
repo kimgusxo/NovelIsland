@@ -1,18 +1,18 @@
 <template>
     <div class="signUp-wrapper">
         <h2>회원가입</h2>
-        <form method="post" action="서버의url" id="signUp-form">
+        <form @submit.prevent="handleSignUp" id="signUp-form">
             <h3 style="text-align: left">아이디</h3>
             <div class = "input-wrapper">
-                <input type="text" name="userName" placeholder="Id">
-                <button @click="checkDuplicate">중복확인</button>
+                <input type="text" v-model="userId" placeholder="Id">
+                <button type="button" @click="handleDuplicateCheck">중복확인</button>
             </div>
             
             <h3 style="text-align: left">비밀번호</h3>
-            <input type="password" name="userPassword" placeholder="Password" v-model="password">
+            <input type="password" v-model="userPassword" placeholder="Password">
             
             <h3 style="text-align: left">비밀번호 확인</h3>
-            <input type="password" name="userPasswordCheck" placeholder="PasswordCheck" v-model="passwordConfirmation">
+            <input type="password" v-model="userPasswordConfirmation" placeholder="PasswordCheck">
             
             <div v-if="passwordMatch" style="color: green;">비밀번호가 일치합니다.</div>
             <div v-else style="color: red;">비밀번호가 일치하지 않습니다.</div>
@@ -23,29 +23,41 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     data() {
-    return {
-      password: '',
-      passwordConfirmation: ''
-    }
+      return {
+        userId: '',
+        userPassword: '',
+        userPasswordConfirmation: ''
+      }
     },
 
     computed: {
         // 비밀번호와 비밀번호 확인이 일치하는지 확인하는 computed 속성
         passwordMatch() {
-            return this.password === this.passwordConfirmation;
+            return this.userPassword === this.userPasswordConfirmation;
         }
     },
 
     methods: {
-    checkDuplicate() {
-      // 중복확인 버튼을 클릭했을 때 수행할 작업을 여기에 추가합니다.
-      // 서버 요청을 보내고 중복 여부를 확인하는 로직을 작성합니다.
-      // 예를 들어, axios를 사용하여 서버와 통신할 수 있습니다.
-      // 이 예제에서는 단순히 콘솔에 메시지를 출력하는 것으로 대체합니다.
-      console.log('중복확인 버튼을 클릭했습니다.');
-    }
+      ...mapActions(['setUserId', 'setUserPassword', 'duplicateCheck', 'signUp']),
+       handleDuplicateCheck() {
+         this.$store.commit('setUserId', this.userId);
+         this.$store.dispatch('duplicateCheck');
+      },
+      handleSignUp() {
+        if (this.$store.state.duplicateToken && this.passwordMatch) { // 수정된 부분
+          this.$store.commit('setUserId', this.userId);
+          this.$store.commit('setUserPassword', this.userPassword);
+          this.$store.dispatch('signUp');
+        } else if (!this.$store.state.duplicateToken) {
+          alert('아이디 중복 확인을 해주세요.');
+        } else {
+          alert('비밀번호가 일치하지 않습니다.');
+        }
+      }
   }
 }
 </script>
