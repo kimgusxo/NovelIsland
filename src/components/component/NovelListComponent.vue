@@ -10,6 +10,7 @@
     <div v-for="(novel, index) in paginatedNovels" :key="index" class="grid-item">
       <div class="grid-item-content">
         <font-awesome-icon
+          v-if="isLoggedIn"
           :icon="['fas', 'heart']"
           class="bookmarkIcon"
           :class="{ 'bookmarked': novel.isBookmarked }"
@@ -57,7 +58,7 @@ export default {
     totalPages() {
       return Math.ceil(this.sortingNovels.length / this.itemsPerPage);
     },
-    ...mapState(['sortingNovels']),
+    ...mapState(['sortingNovels', 'isLoggedIn']),
   },
   methods: {
     prevPage() {
