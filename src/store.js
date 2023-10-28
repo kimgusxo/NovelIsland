@@ -12,7 +12,7 @@ export default createStore({
     userPassword: '',
     user: {},
     isLoggedIn: false,
-    duplicateToken: false,
+    duplicateToken: true,
     novel: {},
     author: {},
     sortingNovels: [],
@@ -110,7 +110,11 @@ export default createStore({
       })
       .then((response) => {
         context.commit('setDuplicateToken', response.data.data);
-        alert("아이디가 사용가능합니다.")
+        if(!this.state.duplicateToken) {
+          alert("아이디가 사용가능합니다.");
+        } else {
+          alert("아이디가 이미 존재합니다.");
+        }
       })
       .catch((error) => {
         alert(error.response.data.message);

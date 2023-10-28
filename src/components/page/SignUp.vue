@@ -48,11 +48,11 @@ export default {
          this.$store.dispatch('duplicateCheck');
       },
       handleSignUp() {
-        if (this.$store.state.duplicateToken && this.passwordMatch) { // 수정된 부분
+        if (!this.$store.state.duplicateToken && this.passwordMatch) { // 수정된 부분
           this.$store.commit('setUserId', this.userId);
           this.$store.commit('setUserPassword', this.userPassword);
           this.$store.dispatch('signUp');
-        } else if (!this.$store.state.duplicateToken) {
+        } else if (this.$store.state.duplicateToken) {
           alert('아이디 중복 확인을 해주세요.');
         } else {
           alert('비밀번호가 일치하지 않습니다.');
