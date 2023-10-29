@@ -8,19 +8,33 @@ const axiosInstance = axios.create({
 
 export default createStore({
   state: {
+    
+    // user
+    userIndex: '',
     userId: '',
     userPassword: '',
     user: {},
     isLoggedIn: false,
     duplicateToken: true,
+    
+    // novel
     novel: {},
-    author: {},
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
+
+    // author
+    authorId: '',
+    author: {},
     sortingAuthors: [],
+
+    // genre
+    tagId: '',
+    tag: {},
     sortingGenres: [],
     selectedGenres: [],
+    
+    // search
     novelSearchQuery: '',
     authorSearchQuery: '',
     genreSearchQuery: '',
@@ -32,9 +46,15 @@ export default createStore({
     },
     getAuthor(state) {
       return state.author;
-    }
+    },
+
   },
   mutations: {
+    
+    // user
+    setUserIndex(state, userIndex) {
+      state.userIndex = userIndex;
+    },
     setUserId(state, userId) {
       state.userId = userId;
     },
@@ -50,20 +70,10 @@ export default createStore({
     setDuplicateToken(state, duplicateToken) {
       state.duplicateToken = duplicateToken;
     },
+
+    // novel
     setNovel(state, novel) {
       state.novel = novel;
-    },
-    setAuthor(state, author) {
-      state.author = author;
-    },
-    setNovelSearchQuery(state, novelSearchQuery) {
-      state.novelSearchQuery = novelSearchQuery;
-    },
-    setGenreSearchQuery(state, genreSearchQuery) {
-      state.genreSearchQuery = genreSearchQuery;
-    },
-    setAuthorSearchQuery(state, authorSearchQuery) {
-      state.authorSearchQuery = authorSearchQuery;
     },
     setSortingNovels(state, sortingNovels) {
       state.sortingNovels = sortingNovels;
@@ -74,8 +84,24 @@ export default createStore({
     setRandomNovels(state, randomNovels) {
       state.randomNovels = randomNovels;
     },
+
+    // author
+    setAuthorId(state, authorId) {
+      state.authorId = authorId;
+    },
+    setAuthor(state, author) {
+      state.author = author;
+    },
     setSortingAuthors(state, sortingAuthors) {
       state.sortingAuthors = sortingAuthors;
+    },
+
+    // genre
+    setTagId(state, tagId) {
+      state.tagId = tagId;
+    },
+    setTag(state, tag) {
+      state.tag = tag;
     },
     setSortingGenres(state, sortingGenres) {
       state.sortingGenres = sortingGenres;
@@ -83,17 +109,32 @@ export default createStore({
     setSelectedGenres(state, selectedGenres) {
       state.selectedGenres = selectedGenres;
     },
+
+    // search
+    setNovelSearchQuery(state, novelSearchQuery) {
+      state.novelSearchQuery = novelSearchQuery;
+    },
+    setGenreSearchQuery(state, genreSearchQuery) {
+      state.genreSearchQuery = genreSearchQuery;
+    },
+    setAuthorSearchQuery(state, authorSearchQuery) {
+      state.authorSearchQuery = authorSearchQuery;
+    },
   },
   actions: {
-    updateSelectedGenres(context, selectedGenres) {
-      context.commit('setSelectedGenres', selectedGenres);
-    },
+
+    // user
     login(context) {
       axiosInstance.post('/login/signIn', { 
           userId: context.state.userId, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
           userPassword: context.state.userPassword
       })
         .then((response) => {
+          const token = response.data.data.jwtToken;
+
+          // 토큰 저장
+          localStorage.setItem('token', token);
+
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
           router.push('/'); // 리다이렉트
@@ -126,6 +167,11 @@ export default createStore({
           userPassword: context.state.userPassword
       })
         .then((response) => {
+          const token = response.data.data.jwtToken;
+
+          // 토큰 저장
+          localStorage.setItem('token', token);
+
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
           router.push('/'); // 리다이렉트
@@ -134,6 +180,29 @@ export default createStore({
             alert(error.response.data.message);
         });
     },
+    updateUser(context) {
+      const token = localStorage.getItem('token');
+      
+      axiosInstance.put('/user/update', {
+        userIndex: context.state.userIndex,
+        userId: context.state.userId,
+        userPassword: context.state.userPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        context.commit('setUser', response.data.data);
+        context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
+        router.push('/'); // 리다이렉트
+      })
+      .catch((error) => {
+          alert(error.response.data.message);
+      });
+    },
+
+    // novel
     fetchSortingNovels(context) {
       axiosInstance.get('/novel/get/sorting')
         .then((response) => {
@@ -143,6 +212,77 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
+    fetchRankingNovels(context) {
+      axiosInstance.get('/novel/get/ranking')
+        .then((response) => {
+          context.commit('setRankingNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    fetchRandomNovels(context) {
+      axiosInstance.get('/novel/get/random')
+        .then((response) => {
+          context.commit('setRandomNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+
+    // author
+    fetchSortingAuthors(context) {
+      axiosInstance.get('/author/get/sorting')
+        .then((response) => {
+          context.commit('setSortingAuthors', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    searchAuthor(context) {
+      axiosInstance.get('/author/find/authorId', {
+        params: {
+          authorId: context.state.authorId
+        }
+      })
+      .then((response) => {
+        context.commit('setAuthor', response.data.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+    },
+
+    // genre
+    updateSelectedGenres(context, selectedGenres) {
+      context.commit('setSelectedGenres', selectedGenres);
+    },
+    fetchSortingGenres(context) {
+      axiosInstance.get('/tag/get/sorting')
+        .then((response) => {
+          context.commit('setSortingGenres', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    searchTag(context) {
+      axiosInstance.get('/tag/find/tagId', {
+        params: {
+          tagId: context.state.tagId
+        }
+      })
+      .then((response) => {
+        context.commit('setTag', response.data.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+    },
+
+    // search
     searchNovelsInNovelPage(context) {
       axiosInstance.get('/novel/find/novelName', {
         params: {
@@ -197,33 +337,6 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
-    fetchRankingNovels(context) {
-      axiosInstance.get('/novel/get/ranking')
-        .then((response) => {
-          context.commit('setRankingNovels', response.data.data);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    fetchRandomNovels(context) {
-      axiosInstance.get('/novel/get/random')
-        .then((response) => {
-          context.commit('setRandomNovels', response.data.data);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    fetchSortingAuthors(context) {
-      axiosInstance.get('/author/get/sorting')
-        .then((response) => {
-          context.commit('setSortingAuthors', response.data.data);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
     searchAuthorsInAuthorPage(context) {
       axiosInstance.get('/author/find/authorName', {
         params: {
@@ -234,15 +347,6 @@ export default createStore({
       })
         .then((response) => {
           context.commit('setSortingAuthors', response.data.data);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    fetchSortingGenres(context) {
-      axiosInstance.get('/tag/get/sorting')
-        .then((response) => {
-          context.commit('setSortingGenres', response.data.data);
         })
         .catch((error) => {
           alert(error.response.data.message);

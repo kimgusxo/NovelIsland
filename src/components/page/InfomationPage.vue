@@ -1,19 +1,16 @@
 <template>
     <div class="infomation-wrapper">
         <h2>정보 수정</h2>
-        <form method="post" action="서버의url" id="infomation-form">
+        <form @submit.prevent="handleUpdateUser" id="infomation-form">
             <h3 style="text-align: left">아이디</h3>
-            <div class = "input-wrapper">
-                <input type="text" name="userName" v-model="userName" placeholder="Id">
-                <button @click="checkDuplicate">중복확인</button>
-            </div>
+            <input type="text" v-model="userId" placeholder="Id" :disabled="isInputDisabled">
             
             <h3 style="text-align: left">비밀번호</h3>
-            <input type="password" name="userPassword" placeholder="Password" v-model="password">
+            <input type="password" v-model="userPassword" placeholder="Password">
             
             <h3 style="text-align: left">비밀번호 확인</h3>
-            <input type="password" name="userPasswordCheck" placeholder="PasswordCheck" v-model="passwordConfirmation">
-            
+            <input type="password" v-model="userPasswordConfirmation" placeholder="PasswordCheck">
+
             <div v-if="passwordMatch" style="color: green;">비밀번호가 일치합니다.</div>
             <div v-else style="color: red;">비밀번호가 일치하지 않습니다.</div>
 
@@ -23,31 +20,45 @@
 </template>
 
 <script>
+import { mapActions, mapState  } from 'vuex';
+
 export default {
     data() {
-    return {
-      userName: 'abc',
-      password: '123',
-      passwordConfirmation: '123'
-    }
+      return {
+        userId: '',
+        userPassword: '',
+        userPasswordConfirmation: '',
+        isInputDisabled: true,
+      }
     },
 
     computed: {
-        // 비밀번호와 비밀번호 확인이 일치하는지 확인하는 computed 속성
-        passwordMatch() {
-            return this.password === this.passwordConfirmation;
-        }
+      ...mapState(['user']),
+      // 비밀번호와 비밀번호 확인이 일치하는지 확인하는 computed 속성
+      passwordMatch() {
+          return this.userPassword === this.userPasswordConfirmation;
+      }
     },
 
     methods: {
-    checkDuplicate() {
-      // 중복확인 버튼을 클릭했을 때 수행할 작업을 여기에 추가합니다.
-      // 서버 요청을 보내고 중복 여부를 확인하는 로직을 작성합니다.
-      // 예를 들어, axios를 사용하여 서버와 통신할 수 있습니다.
-      // 이 예제에서는 단순히 콘솔에 메시지를 출력하는 것으로 대체합니다.
-      console.log('중복확인 버튼을 클릭했습니다.');
-    }
-  }
+      ...mapActions(['setUserId', 'setUserPassword', 'updateUser']),
+
+      handleUpdateUser() {
+        if (this.passwordMatch) { // 수정된 부분
+          this.$store.commit('setUserIndex', this.user.userIndex);
+          this.$store.commit('setUserId', this.userId);
+          this.$store.commit('setUserPassword', this.userPassword);
+          this.$store.dispatch('updateUser');
+        } else {
+          alert('비밀번호가 일치하지 않습니다.');
+        }
+      }
+  },
+  mounted() {
+    this.userId = this.user.userId;
+    this.userPassword = this.user.userPassword;
+    this.userPasswordConfirmation = this.user.userPassword;
+  },
 }
 </script>
 
