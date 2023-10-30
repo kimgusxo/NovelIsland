@@ -18,7 +18,9 @@ export default createStore({
     duplicateToken: true,
     
     // novel
+    novelId: '',
     novel: {},
+    novelIdList: [],
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
@@ -33,6 +35,11 @@ export default createStore({
     tag: {},
     sortingGenres: [],
     selectedGenres: [],
+
+    // bookmark
+    bookMarkId: '',
+    bookMarkList: [],
+    bookMarkNovels: [],
     
     // search
     novelSearchQuery: '',
@@ -72,8 +79,14 @@ export default createStore({
     },
 
     // novel
+    setNovelId(state, novelId) {
+      state.novelId = novelId;
+    },
     setNovel(state, novel) {
       state.novel = novel;
+    },
+    setNovelIdList(state, novelIdList) {
+      state.novelIdList = novelIdList;
     },
     setSortingNovels(state, sortingNovels) {
       state.sortingNovels = sortingNovels;
@@ -108,6 +121,17 @@ export default createStore({
     },
     setSelectedGenres(state, selectedGenres) {
       state.selectedGenres = selectedGenres;
+    },
+
+    // bookmark
+    setBookMarkId(state, bookMarkId) {
+      state.bookMarkId = bookMarkId;
+    },
+    setBookMarkList(state, bookMarkList) {
+      state.bookMarkList = bookMarkList;
+    },
+    setBookMarkNovels(state, bookMarkNovels) {
+      state.bookMarkNovels = bookMarkNovels;
     },
 
     // search
@@ -279,6 +303,93 @@ export default createStore({
       })
       .catch((error) => {
         alert(error.response.data.message);
+      });
+    },
+
+    // bookmark
+    searchBookMark(context) {
+      const token = localStorage.getItem('token');
+
+      return new Promise((resolve, reject) => {
+        axiosInstance.get('/bookmark/find/userIndex', {
+          params: {
+            userIndex: context.state.user.userIndex,
+            page: 0,
+            size: 32,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        .then((response) => {
+          context.commit('setBookMarkList', response.data.data);
+          resolve(response);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+          reject(error);
+        });
+      });
+    },
+    searchNovelsByNovelIdList(context) {
+      const token = localStorage.getItem('token');
+
+      axiosInstance.get('/novel/find/novelIdList', {
+        params: {
+          novelIdList: context.state.novelIdList.join(','),
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      })
+      .then((response) => {
+        context.commit('setBookMarkNovels', response.data.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+    },
+    createBookMark(context) {
+      const token = localStorage.getItem('token');
+      const userIndex = context.state.user.userIndex;
+      const novelId = context.state.novelId;
+
+      return new Promise((resolve, reject) => {
+        axiosInstance.post(`/bookmark/create/userIndex/and/novelId?userIndex=${userIndex}&novelId=${novelId}`, {}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        .then((response) => {
+          alert(response.data.message);
+          resolve(response);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+          reject(error);
+        });
+      });
+    },
+    deleteBookMark(context) {
+      const token = localStorage.getItem('token');
+
+      return new Promise((resolve, reject) => {
+        axiosInstance.delete('/bookmark/delete/bookMarkId', {
+          params: {
+            bookMarkId: context.state.bookMarkId,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        .then((response) => {
+          alert(response.data.message);
+          resolve(response);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+          reject(error);
+        });
       });
     },
 

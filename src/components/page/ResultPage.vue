@@ -29,8 +29,8 @@ export default {
   mounted() {
     this.$store.commit('setAuthorId', this.getNovel.authorId);
     this.$store.commit('setTagId', this.getNovel.tagId);
-    this.searchAuthor(this.authorId);
-    this.searchTag(this.tagId);
+    this.searchAuthor();
+    this.searchTag();
   }
 }
 </script>

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
@@ -58,9 +58,10 @@ export default {
     totalPages() {
       return Math.ceil(this.sortingNovels.length / this.itemsPerPage);
     },
-    ...mapState(['sortingNovels', 'isLoggedIn']),
+    ...mapState(['sortingNovels', 'novelId', 'bookMarkId', 'isLoggedIn', 'bookMarkList']),
   },
   methods: {
+    ...mapActions(['createBookMark', 'deleteBookMark', 'searchBookMark']),
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
@@ -75,11 +76,44 @@ export default {
       this.currentPage = page;
     },
     toggleBookmark(novel) {
-      novel.isBookmarked = !novel.isBookmarked;
+      if(novel.isBookmarked) {
+        const bookMark = this.bookMarkList.find(bookMark => bookMark.novelId === novel.novelId);
+        this.$store.commit('setBookMarkId', bookMark.bookMarkId);
+        this.deleteBookMark().then(() => {
+          this.searchBookMark().then(() => {
+            this.setBookmarkedNovels();
+          });
+        });
+      } else {
+        this.$store.commit('setNovelId', novel.novelId);
+        this.createBookMark().then(() => {
+          this.searchBookMark().then(() => {
+            this.setBookmarkedNovels();
+          });
+        });
+      }
+    },
+    setBookmarkedNovels() {
+      if (this.bookMarkList.length === 0) {
+        return;
+      }
+      this.sortingNovels.forEach((novel) => {
+        novel.isBookmarked = this.bookMarkList.some(bookMark => bookMark.novelId === novel.novelId);
+      });
     },
     goToResultPage(novel) {
       this.$store.commit('setNovel', novel);
       this.$router.push('/result');
+    },
+  },
+  watch: {
+    sortingNovels: {
+      immediate: true,
+      handler() {
+        if(this.isLoggedIn) {
+          this.setBookmarkedNovels();
+        }
+      },
     },
   },
 };
