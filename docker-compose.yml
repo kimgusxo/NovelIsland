@@ -1,0 +1,6 @@
+version: '3'
+services:
+  frontend:
+    image: my-frontend-image
+    ports:
+      - '8080:8080'
