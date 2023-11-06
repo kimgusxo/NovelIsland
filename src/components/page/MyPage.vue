@@ -33,7 +33,8 @@
         this.$store.commit('setUserIndex', this.user.userIndex);
         this.searchBookMark()
             .then(() => {
-                this.$store.commit('setNovelIdList', this.bookMarkList.map(bookMark => bookMark.novelId));
+                const novelIdList = this.bookMarkList ? this.bookMarkList.map(bookMark => bookMark.novelId) : [];
+                this.$store.commit('setNovelIdList', novelIdList);
             })
             .then(() => {
                 return this.searchNovelsByNovelIdList();

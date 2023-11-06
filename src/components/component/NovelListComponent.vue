@@ -100,7 +100,7 @@ export default {
       }
     },
     setBookmarkedNovels() {
-      if (this.bookMarkList.length === 0) {
+      if (!this.bookMarkList) {
         return;
       }
       this.sortingNovels.forEach((novel) => {
