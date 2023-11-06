@@ -8,14 +8,25 @@
   <div>
     <TextAreaComponent />
   </div>
+  <div v-if="resultNovels.length > 0">
+    <SearchResultComponent :resultNovels="resultNovels"/>
+  </div>
 </template>
 
 <script>
+import SearchResultComponent from '../component/SearchResultComponent.vue';
 import TextAreaComponent from '../component/TextAreaComponent.vue'; // PageCarousel 컴포넌트 import
+
+import { mapState } from 'vuex';
 
 export default {
   components: {
     TextAreaComponent,
+    SearchResultComponent,
   },
+  computed: {
+    ...mapState(['resultNovels']),
+  },
+
 };
 </script>

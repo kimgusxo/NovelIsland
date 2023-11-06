@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 export default createStore({
   state: {
-    
+
     // user
     userIndex: '',
     userId: '',
@@ -24,6 +24,7 @@ export default createStore({
     sortingNovels: [],
     randomNovels: [],
     rankingNovels: [],
+    resultNovels: [],
 
     // author
     authorId: '',
@@ -45,8 +46,11 @@ export default createStore({
     novelSearchQuery: '',
     authorSearchQuery: '',
     genreSearchQuery: '',
+    textArea: '',
   },
+
   getters: {
+
     // 다른 게터들...
     getNovel(state) {
       return state.novel;
@@ -56,8 +60,9 @@ export default createStore({
     },
 
   },
+
   mutations: {
-    
+
     // user
     setUserIndex(state, userIndex) {
       state.userIndex = userIndex;
@@ -96,6 +101,9 @@ export default createStore({
     },
     setRandomNovels(state, randomNovels) {
       state.randomNovels = randomNovels;
+    },
+    setResultNovels(state, resultNovels) {
+      state.resultNovels = resultNovels;
     },
 
     // author
@@ -144,7 +152,11 @@ export default createStore({
     setAuthorSearchQuery(state, authorSearchQuery) {
       state.authorSearchQuery = authorSearchQuery;
     },
+    setTextArea(state, textArea) {
+      state.textArea = textArea;
+    }
   },
+
   actions: {
 
     // user
@@ -334,20 +346,24 @@ export default createStore({
     searchNovelsByNovelIdList(context) {
       const token = localStorage.getItem('token');
 
-      axiosInstance.get('/novel/find/novelIdList', {
-        params: {
-          novelIdList: context.state.novelIdList.join(','),
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
+      return new Promise((resolve, reject) => {
+        axiosInstance.get('/novel/find/novelIdList', {
+          params: {
+            novelIdList: context.state.novelIdList.join(','),
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        .then((response) => {
+          context.commit('setBookMarkNovels', response.data.data);
+          resolve(response);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+          reject(error);
+        });
       })
-      .then((response) => {
-        context.commit('setBookMarkNovels', response.data.data);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
     },
     createBookMark(context) {
       const token = localStorage.getItem('token');
@@ -463,5 +479,19 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
+    searchResultNovelsByNovelExplanation(context) {
+      axiosInstance.get('/elastic/find/result', {
+        params: {
+          novelExplanation: context.state.textArea,
+        }
+      })
+        .then((response) => {
+          context.commit('setResultNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+
   }
 });

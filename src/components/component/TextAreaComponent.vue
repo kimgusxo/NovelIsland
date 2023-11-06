@@ -1,6 +1,6 @@
 <template>
     <div class="textarea">
-      <textarea v-model="searchQuery" class="textarea-box" placeholder="검색어를 입력하세요"></textarea>
+      <textarea v-model="textArea" class="textarea-box" placeholder="검색어를 입력하세요"></textarea>
       <button @click="search" class="textarea-button">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
         검색
@@ -13,15 +13,15 @@
   export default {
     data() {
       return {
-        searchQuery: '',
-        searchResult: '',
+        textArea: '',
       };
     },
     methods: {
       search() {
         // 실제 검색 로직을 수행하고 결과를 searchResult에 저장합니다.
         // 여기서는 간단하게 검색어를 그대로 표시하는 예제를 제공합니다.
-        this.searchResult = this.searchQuery;
+        this.$store.commit('setTextArea', this.textArea);
+        this.$store.dispatch('searchResultNovelsByNovelExplanation');
       },
     },
   };

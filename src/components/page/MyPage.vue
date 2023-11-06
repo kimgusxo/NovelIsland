@@ -31,9 +31,14 @@
     mounted() {
         // 페이지가 로드될 때 서버에서 소설 데이터 요청
         this.$store.commit('setUserIndex', this.user.userIndex);
-        this.searchBookMark();
-        this.$store.commit('setNovelIdList', this.bookMarkList.map(bookMark => bookMark.novelId));
-        this.searchNovelsByNovelIdList();
+        this.searchBookMark()
+            .then(() => {
+                this.$store.commit('setNovelIdList', this.bookMarkList.map(bookMark => bookMark.novelId));
+            })
+            .then(() => {
+                return this.searchNovelsByNovelIdList();
+            }
+        )
     },
   };
 </script>
