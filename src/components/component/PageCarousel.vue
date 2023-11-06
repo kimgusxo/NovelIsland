@@ -87,7 +87,7 @@ export default {
 
 .carousel-image {
   max-width: 100%;
-  width: 300px; /* 이미지 최대 너비 설정 */
+  width: 500px; /* 이미지 최대 너비 설정 */
   height: auto; /* 높이 자동 조절 */
 }
 

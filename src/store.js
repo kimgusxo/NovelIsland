@@ -13,14 +13,20 @@ export default createStore({
     rankingPageNum: 0,
     rankingSizeNum: 40,
 
-    novelPageNum: 0,
-    novelSizeNum: 32,
+    sortingPageNum: 0,
+    sortingSizeNum: 320,
 
     authorPageNum: 0,
     authorSizeNum: 24,
 
-    genrePageNum: 0,
-    genreSizeNum: 32,
+    bookMarkPageNum: 0,
+    bookMarkSizeNum: 32,
+
+    searchNovelPageNum: 0,
+    searchNovelSizeNum: 320,
+
+    genreNovelPageNum: 0,
+    genreNovelSizeNum: 320,
     
     // user
     userIndex: '',
@@ -80,14 +86,17 @@ export default createStore({
     setRankingPageNum(state, rankingPageNum) {
       state.rankingPageNum = rankingPageNum;
     },
-    setNovelPageNum(state, novelPageNum) {
-      state.novelPageNum = novelPageNum;
+    setSortingPageNum(state, sortingPageNum) {
+      state.sortingPageNum = sortingPageNum;
     },
     setAuthorPageNum(state, authorPageNum) {
       state.authorPageNum = authorPageNum;
     },
-    setGenrePageNum(state, genrePageNum) {
-      state.genrePageNum = genrePageNum;
+    setSearchNovelPageNum(state, searchNovelPageNum) {
+      state.searchNovelPageNum = searchNovelPageNum;
+    },
+    setGenreNovelPageNum(state, genreNovelPageNum) {
+      state.genreNovelPageNum = genreNovelPageNum;
     },
 
     // user
@@ -267,7 +276,12 @@ export default createStore({
 
     // novel
     fetchSortingNovels(context) {
-      axiosInstance.get('/novel/get/sorting')
+      axiosInstance.get('/novel/get/sorting', {
+        params: {
+          page: context.state.sortingPageNum,
+          size: context.state.sortingSizeNum
+        }
+      })
         .then((response) => {
           context.commit('setSortingNovels', response.data.data);
         })
@@ -276,7 +290,12 @@ export default createStore({
         });
     },
     fetchRankingNovels(context) {
-      axiosInstance.get('/novel/get/ranking')
+      axiosInstance.get('/novel/get/ranking', {
+        params: {
+          page: context.state.rankingPageNum, 
+          size: context.state.rankingSizeNum
+        }
+      })
         .then((response) => {
           context.commit('setRankingNovels', response.data.data);
         })
@@ -296,7 +315,12 @@ export default createStore({
 
     // author
     fetchSortingAuthors(context) {
-      axiosInstance.get('/author/get/sorting')
+      axiosInstance.get('/author/get/sorting', {
+        params: {
+          page: context.state.authorPageNum,
+          size: context.state.authorSizeNum
+        }
+      })
         .then((response) => {
           context.commit('setSortingAuthors', response.data.data);
         })
@@ -358,8 +382,8 @@ export default createStore({
         axiosInstance.get('/bookmark/find/userIndex', {
           params: {
             userIndex: context.state.user.userIndex,
-            page: 0,
-            size: 32,
+            page: context.state.bookMarkPageNum,
+            size: context.state.bookMarkSizeNum,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -446,8 +470,8 @@ export default createStore({
       axiosInstance.get('/novel/find/novelName', {
         params: {
           novelName: context.state.novelSearchQuery, // 검색어를 동적으로 설정하거나 사용자 입력 값을 사용하세요
-          page: 0, // 페이지 번호
-          size: 320 // 한 페이지에 표시할 항목 수
+          page: context.state.searchNovelPageNum, // 페이지 번호
+          size: context.state.searchNovelSizeNum // 한 페이지에 표시할 항목 수
         }
       })
         .then((response) => {
@@ -470,8 +494,8 @@ export default createStore({
         params: {
           novelName: context.state.genreSearchQuery,
           tagIdList: selectedGenreIds.join(','),
-          page: 0, // 페이지 번호
-          size: 320 // 한 페이지에 표시할 항목 수
+          page: context.state.genreNovelPageNum, // 페이지 번호
+          size: context.state.genreNovelSizeNum // 한 페이지에 표시할 항목 수
         }
       })
         .then((response) => {

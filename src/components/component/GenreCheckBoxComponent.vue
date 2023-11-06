@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2>장르별</h2>
+      <h1>장르별</h1>
       <div class="grid-container">
         <div v-for="genre in sortingGenres" :key="genre.id" class="grid-item">
           <font-awesome-icon

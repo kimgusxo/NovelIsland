@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>작가</h2>
+    <h1>작가</h1>
   </div>
   <div>
     <SearchComponent searchAction="searchAuthorsInAuthorPage" 
