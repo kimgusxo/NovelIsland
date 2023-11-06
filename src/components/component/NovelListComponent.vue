@@ -25,6 +25,9 @@
 
   <div class="pagination">
       <div class="page-bar">
+        <button>
+          <font-awesome-icon :icon="['fas', 'angles-left']" />
+        </button>
         <button @click="prevPage" :disabled="currentPage === 1">
           <font-awesome-icon :icon="['fas', 'angle-left']" />
         </button>
@@ -33,6 +36,9 @@
         </div>
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
+        </button>
+        <button>
+          <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
     </div>
@@ -155,6 +161,7 @@ export default {
   
   .title {
     margin-top: 5px;
+    cursor: pointer;
   }
 
 .bookmarkIcon {

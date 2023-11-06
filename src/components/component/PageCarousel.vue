@@ -10,7 +10,7 @@
         <slide v-for="(novel, index) in randomNovels" :key="index">
           <div class="slide-content">
             <img :src="novel.novelThumbnail" class="carousel-image" />
-            <h1 @click="goToResultPage(novel)">{{novel.novelName}}</h1>
+            <h1 class="title" @click="goToResultPage(novel)">{{novel.novelName}}</h1>
           </div>
         </slide>
       </carousel>
@@ -89,6 +89,10 @@ export default {
   max-width: 100%;
   width: 300px; /* 이미지 최대 너비 설정 */
   height: auto; /* 높이 자동 조절 */
+}
+
+.title {
+  cursor: pointer;
 }
 
 /* 버튼 스타일링 */

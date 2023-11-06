@@ -107,6 +107,7 @@ export default {
 
 .title {
   margin-top: 5px;
+  cursor: pointer;
 }
 
 .pagination {

@@ -57,6 +57,7 @@ export default {
   
   .title {
     margin-top: 5px;
+    cursor: pointer;
   }
 
 /* "더보기" 텍스트 스타일 */
