@@ -6,7 +6,7 @@
     </h1>
     <div class="carousel-container">
       <button @click="prevSlide" class="carousel-button prev-button"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
-      <carousel ref="carouselRef">
+      <carousel ref="carouselRef" @slide-end="onSlideEnd">
         <slide v-for="(novel, index) in randomNovels" :key="index">
           <div class="slide-content">
             <img :src="novel.novelThumbnail" class="carousel-image" />
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       currentSlide: 0, // 현재 슬라이드 인덱스
+      isSliding: false, // 새로운 데이터 속성 추가
     };
   },
   computed: {
@@ -49,16 +50,22 @@ export default {
   },
   methods: {
     prevSlide() {
-      if (this.currentSlide > 0) {
+      if (!this.isSliding && this.currentSlide > 0) {
+        this.isSliding = true; // 슬라이드 이동 시작
         this.$refs.carouselRef.prev();
         this.currentSlide = this.currentSlide - 1;
       }
     },
     nextSlide() {
-      if (this.currentSlide < this.randomNovels.length - 1) {
+      if (!this.isSliding && this.currentSlide < this.randomNovels.length - 1) {
+        this.isSliding = true; // 슬라이드 이동 시작
         this.$refs.carouselRef.next();
         this.currentSlide = this.currentSlide + 1;
       }
+    },
+    // 슬라이드 이동 완료 시 호출될 메소드
+    onSlideEnd() {
+      this.isSliding = false; // 슬라이드 이동 종료
     },
     goToSlide(index) {
       this.$refs.carouselRef.slideTo(index)
