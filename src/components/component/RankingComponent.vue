@@ -14,7 +14,7 @@
     </div>
     <div class="pagination">
       <div class="page-bar">
-        <button>
+        <button @click="prevTotalPage" :disabled="this.rankingPageNum === 0">
           <font-awesome-icon :icon="['fas', 'angles-left']" />
         </button>
         <button @click="prevPage" :disabled="currentPage === 1">
@@ -26,7 +26,7 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
         </button>
-        <button>
+        <button @click="nextTotalPage">
           <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
  
 export default {
   data() {
@@ -53,9 +53,20 @@ export default {
     totalPages() {
       return Math.ceil(this.rankingNovels.length / this.itemsPerPage);
     },
-    ...mapState(['rankingNovels', 'rankingPageNum']),
+    ...mapState(['rankingNovels', 'rankingPageNum', 'rankingSizeNum']),
   },
   methods: {
+    ...mapActions(['fetchRankingNovels']), // action import
+    prevTotalPage() {
+      if (this.rankingPageNum > 1) {
+        this.$store.commit('setRankingPageNum', this.rankingPageNum - 1);
+        this.fetchRankingNovels();
+      }
+    },
+    nextTotalPage() {
+      this.$store.commit('setRankingPageNum', this.rankingPageNum + 1);
+      this.fetchRankingNovels();
+    },
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
