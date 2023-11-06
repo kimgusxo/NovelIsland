@@ -10,9 +10,6 @@
             <h2>소설설명: {{getNovel.novelExplanation}}</h2>
         </div>
     </div>
-    <p class="result-link">
-        바로가기
-    </p>
 </template>
       
 <script>
@@ -53,9 +50,5 @@ export default {
 .novel-details {
     flex: 1;
     text-align: left;
-}
-.result-link {
-    margin-top: 10px; /* 바로가기 위쪽 여백 5px 설정 */
-    margin-bottom: 10px; /* 바로가기 아래쪽 여백 5px 설정 */
 }
 </style>
