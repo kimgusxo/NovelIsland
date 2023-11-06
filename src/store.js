@@ -9,6 +9,19 @@ const axiosInstance = axios.create({
 export default createStore({
   state: {
 
+    // pagenation
+    rankingPageNum: 0,
+    rankingSizeNum: 40,
+
+    novelPageNum: 0,
+    novelSizeNum: 32,
+
+    authorPageNum: 0,
+    authorSizeNum: 24,
+
+    genrePageNum: 0,
+    genreSizeNum: 32,
+    
     // user
     userIndex: '',
     userId: '',
@@ -62,6 +75,20 @@ export default createStore({
   },
 
   mutations: {
+
+    // pagenation
+    setRankingPageNum(state, rankingPageNum) {
+      state.rankingPageNum = rankingPageNum;
+    },
+    setNovelPageNum(state, novelPageNum) {
+      state.novelPageNum = novelPageNum;
+    },
+    setAuthorPageNum(state, authorPageNum) {
+      state.authorPageNum = authorPageNum;
+    },
+    setGenrePageNum(state, genrePageNum) {
+      state.genrePageNum = genrePageNum;
+    },
 
     // user
     setUserIndex(state, userIndex) {
@@ -295,6 +322,11 @@ export default createStore({
     updateSelectedGenres(context, selectedGenres) {
       context.commit('setSelectedGenres', selectedGenres);
     },
+    resetGenres(context) {
+      context.state.sortingGenres.forEach(genre => {
+        genre.checked = false;
+      });
+    },
     fetchSortingGenres(context) {
       axiosInstance.get('/tag/get/sorting')
         .then((response) => {
@@ -444,6 +476,8 @@ export default createStore({
       })
         .then((response) => {
           context.commit('setSortingNovels', response.data.data);
+          context.commit('setSelectedGenres', []); // 이 부분을 추가합니다.
+          context.dispatch('resetGenres'); // 이 부분을 추가합니다.
         })
         .catch((error) => {
           alert(error.response.data.message);

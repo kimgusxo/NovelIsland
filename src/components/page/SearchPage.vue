@@ -27,6 +27,9 @@ export default {
   computed: {
     ...mapState(['resultNovels']),
   },
-
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit('setResultNovels', []);
+    next();
+  },
 };
 </script>
