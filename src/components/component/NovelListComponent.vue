@@ -25,7 +25,7 @@
 
   <div class="pagination">
       <div class="page-bar">
-        <button>
+        <button @click="prevTotalPage" :disabled="this.rankingPageNum === 0">
           <font-awesome-icon :icon="['fas', 'angles-left']" />
         </button>
         <button @click="prevPage" :disabled="currentPage === 1">
@@ -37,7 +37,7 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
         </button>
-        <button>
+        <button @click="nextTotalPage">
           <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
@@ -48,6 +48,7 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
+  props: ['pageNum', 'pageNumMutation', 'fetchNovels'],
   data() {
     return {
       selectedItem: 'option1',
@@ -68,6 +69,16 @@ export default {
   },
   methods: {
     ...mapActions(['createBookMark', 'deleteBookMark', 'searchBookMark']),
+    prevTotalPage() {
+      if (this.pageNum > 0) {
+        this.$store.commit(this.pageNumMutation, this.pageNum - 1);
+        this.fetchNovels();
+      }
+    },
+    nextTotalPage() {
+      this.$store.commit(this.pageNumMutation, this.pageNum + 1);
+      this.fetchNovels();
+    },
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage -= 1;

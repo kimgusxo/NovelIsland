@@ -7,7 +7,8 @@
       setSearchQueryMutation="setNovelSearchQuery"/>
   </div>
   <div>
-    <NovelListComponent :sortingNovels="sortingNovels" />
+    <NovelListComponent :pageNum="sortingPageNum" :pageNumMutation="'setSortingPageNum'" :fetchNovels="fetchSortingNovels"
+     :sortingNovels="sortingNovels" />
   </div>
 </template>
 
@@ -18,10 +19,10 @@ import { mapState, mapActions } from 'vuex'; // Vuex를 가져옴
 
 export default {
   computed: {
-    ...mapState(['sortingNovels']), // Vuex 스토어의 novels 상태를 computed 속성으로 가져옴
+    ...mapState(['sortingNovels', 'sortingPageNum']), // Vuex 스토어의 novels 상태를 computed 속성으로 가져옴
   },
   methods: {
-    ...mapActions(['fetchSortingNovels', 'searchNovelsInNovelPage']), // Vuex 스토어의 fetchNovels 액션을 methods로 가져옴
+    ...mapActions(['fetchSortingNovels', 'searchNovelsInNovelPage', 'setSortingPageNum']), // Vuex 스토어의 fetchNovels 액션을 methods로 가져옴
   },
   mounted() {
     // 페이지가 로드될 때 서버에서 소설 데이터 요청

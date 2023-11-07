@@ -289,6 +289,20 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
+    fetchGenreNovels(context) {
+      axiosInstance.get('/novel/get/sorting', {
+        params: {
+          page: context.state.genreNovelPageNum,
+          size: context.state.genreNovelSizeNum
+        }
+      })
+        .then((response) => {
+          context.commit('setSortingNovels', response.data.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
     fetchRankingNovels(context) {
       axiosInstance.get('/novel/get/ranking', {
         params: {
