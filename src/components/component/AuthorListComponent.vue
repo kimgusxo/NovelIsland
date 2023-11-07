@@ -18,7 +18,7 @@
 
   <div class="pagination">
       <div class="page-bar">
-        <button @click="prevTotalPage" :disabled="this.authorPageNum === 0">
+        <button @click="prevTotalPage" :disabled="this.authorPageNum === 0 || this.isSearch">
           <font-awesome-icon :icon="['fas', 'angles-left']" />
         </button>
         <button @click="prevPage" :disabled="currentPage === 1">
@@ -30,7 +30,7 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
         </button>
-        <button @click="nextTotalPage">
+        <button @click="nextTotalPage" :disabled="this.isSearch">
           <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
@@ -57,7 +57,7 @@ export default {
     totalPages() {
       return Math.ceil(this.sortingAuthors.length / this.itemsPerPage);
     },
-    ...mapState(['sortingAuthors', 'authorPageNum', 'authorSizeNum']),
+    ...mapState(['sortingAuthors', 'authorPageNum', 'authorSizeNum', 'isSearch']),
   },
   methods: {
     ...mapActions(['fetchSortingAuthors']),

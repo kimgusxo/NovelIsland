@@ -29,6 +29,7 @@
       search() {
         // 실제 검색 로직을 수행하고 결과를 searchResult에 저장합니다.
         // 여기서는 간단하게 검색어를 그대로 표시하는 예제를 제공합니다.
+        this.$store.commit('setIsSearch', true)
         this.$store.commit(this.setSearchQueryMutation, this.searchQuery);
         this.$store.dispatch(this.searchAction);
       },

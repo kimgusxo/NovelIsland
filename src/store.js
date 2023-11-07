@@ -62,6 +62,7 @@ export default createStore({
     bookMarkNovels: [],
     
     // search
+    isSearch: false,
     novelSearchQuery: '',
     authorSearchQuery: '',
     genreSearchQuery: '',
@@ -179,6 +180,9 @@ export default createStore({
     },
 
     // search
+    setIsSearch(state, isSearch) {
+      state.isSearch = isSearch;
+    },
     setNovelSearchQuery(state, novelSearchQuery) {
       state.novelSearchQuery = novelSearchQuery;
     },
