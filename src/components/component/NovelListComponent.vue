@@ -25,7 +25,7 @@
 
   <div class="pagination">
       <div class="page-bar">
-        <button @click="prevTotalPage" :disabled="this.rankingPageNum === 0">
+        <button @click="prevTotalPage" :disabled="this.pageNum === 0 || this.isSearch">
           <font-awesome-icon :icon="['fas', 'angles-left']" />
         </button>
         <button @click="prevPage" :disabled="currentPage === 1">
@@ -37,7 +37,7 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
         </button>
-        <button @click="nextTotalPage">
+        <button @click="nextTotalPage" :disabled="this.isSearch">
           <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
@@ -65,7 +65,7 @@ export default {
     totalPages() {
       return Math.ceil(this.sortingNovels.length / this.itemsPerPage);
     },
-    ...mapState(['sortingNovels', 'novelId', 'bookMarkId', 'isLoggedIn', 'bookMarkList']),
+    ...mapState(['sortingNovels', 'novelId', 'bookMarkId', 'isLoggedIn', 'bookMarkList', 'isSearch']),
   },
   methods: {
     ...mapActions(['createBookMark', 'deleteBookMark', 'searchBookMark']),
