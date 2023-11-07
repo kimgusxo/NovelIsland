@@ -18,7 +18,7 @@
 
   <div class="pagination">
       <div class="page-bar">
-        <button>
+        <button @click="prevTotalPage" :disabled="this.authorPageNum === 0">
           <font-awesome-icon :icon="['fas', 'angles-left']" />
         </button>
         <button @click="prevPage" :disabled="currentPage === 1">
@@ -30,7 +30,7 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
         </button>
-        <button>
+        <button @click="nextTotalPage">
           <font-awesome-icon :icon="['fas', 'angles-right']" />
         </button>
       </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
@@ -57,9 +57,20 @@ export default {
     totalPages() {
       return Math.ceil(this.sortingAuthors.length / this.itemsPerPage);
     },
-    ...mapState(['sortingAuthors']),
+    ...mapState(['sortingAuthors', 'authorPageNum', 'authorSizeNum']),
   },
   methods: {
+    ...mapActions(['fetchSortingAuthors']),
+    prevTotalPage() {
+      if (this.authorPageNum > 0) {
+        this.$store.commit('setAuthorPageNum', this.authorPageNum - 1);
+        this.fetchSortingAuthors();
+      }
+    },
+    nextTotalPage() {
+      this.$store.commit('setAuthorPageNum', this.authorPageNum + 1);
+      this.fetchSortingAuthors();
+    },
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage -= 1;

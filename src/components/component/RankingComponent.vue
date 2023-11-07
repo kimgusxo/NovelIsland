@@ -58,7 +58,7 @@ export default {
   methods: {
     ...mapActions(['fetchRankingNovels']), // action import
     prevTotalPage() {
-      if (this.rankingPageNum > 1) {
+      if (this.rankingPageNum > 0) {
         this.$store.commit('setRankingPageNum', this.rankingPageNum - 1);
         this.fetchRankingNovels();
       }
