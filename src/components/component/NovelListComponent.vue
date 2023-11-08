@@ -32,7 +32,7 @@
           <font-awesome-icon :icon="['fas', 'angle-left']" />
         </button>
         <div class="page" v-for="page in totalPages" :key="page">
-          <button @click="goToPage(page)" :class="{ active: currentPage === page }">{{ page }}</button>
+          <button @click="goToPage(page)" :class="{ active: currentPage === page }">{{ page + (this.pageNum * 10) }}</button>
         </div>
         <button @click="nextPage" :disabled="currentPage === totalPages">
           <font-awesome-icon :icon="['fas', 'angle-right']" />
