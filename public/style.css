@@ -2,9 +2,10 @@
     font-family: 'bmjua';
     src: url('./fonts/BMJUA_ttf.ttf'); /* 폰트 파일 경로를 설정합니다. */
 }
-
+    
 /* 기본 스타일 */
 html, body {
     width: 100%;
+    min-width: 800px;
     margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
 }
