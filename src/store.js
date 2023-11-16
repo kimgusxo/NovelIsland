@@ -6,7 +6,8 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:8081', // 이 부분에 API 서버의 주소와 포트를 설정하세요
 });
 
-export default createStore({
+
+const store = createStore({
   state: {
 
     // pagenation
@@ -207,9 +208,11 @@ export default createStore({
       })
         .then((response) => {
           const token = response.data.data.jwtToken;
+          const refreshToken = response.data.data.refreshToken;
 
           // 토큰 저장
           localStorage.setItem('token', token);
+          localStorage.setItem('refreshToken', refreshToken);
 
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
@@ -244,9 +247,11 @@ export default createStore({
       })
         .then((response) => {
           const token = response.data.data.jwtToken;
+          const refreshToken = response.data.data.refreshToken;
 
           // 토큰 저장
           localStorage.setItem('token', token);
+          localStorage.setItem('refreshToken', refreshToken);
 
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
@@ -568,6 +573,35 @@ export default createStore({
           alert(error.response.data.message);
         });
     },
-
   }
 });
+
+// 응답 인터셉터 추가
+axiosInstance.interceptors.response.use(undefined, function (error) {
+  if (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem('refreshToken');
+      return axiosInstance.get('/token/refresh', { 
+        params: {
+        userId: store.state.userId, 
+        refreshToken: refreshToken 
+      }
+    })
+        .then(response => {
+          if (response.status === 200) {
+            // 새로운 액세스 토큰을 로컬 스토리지에 저장
+            localStorage.setItem('token', response.headers.getAuthorization);
+          } else if (response.status === 403) {
+            // 실패한 요청 다시 보내기
+            originalRequest.headers['Authorization'] = 'Bearer ' + response.data.refreshToken;
+            return axios(originalRequest);
+          }
+        })
+    }
+  }
+  return Promise.reject(error);
+});
+
+export default store;
