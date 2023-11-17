@@ -58,9 +58,10 @@ export default {
   },
   computed: {
     paginatedNovels() {
+      const sortedNovels = this.selectedItem === 'option1' ? this.sortingNovels : this.sortingNovels.slice().reverse();
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.sortingNovels.slice(startIndex, endIndex);
+      return sortedNovels.slice(startIndex, endIndex);
     },
     totalPages() {
       return Math.ceil(this.sortingNovels.length / this.itemsPerPage);

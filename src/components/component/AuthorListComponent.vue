@@ -50,9 +50,10 @@ export default {
   },
   computed: {
     paginatedAuthors() {
+      const sortedAuthors = this.selectedItem === 'option1' ? this.sortingAuthors : this.sortingAuthors.slice().reverse();
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.sortingAuthors.slice(startIndex, endIndex);
+      return sortedAuthors.slice(startIndex, endIndex);
     },
     totalPages() {
       return Math.ceil(this.sortingAuthors.length / this.itemsPerPage);

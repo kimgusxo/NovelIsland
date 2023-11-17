@@ -208,7 +208,7 @@ const store = createStore({
       })
         .then((response) => {
           const token = response.data.data.jwtToken;
-          const refreshToken = response.data.data.refreshToken;
+          const refreshToken = response.data.data.refreshJwtToken;
 
           // 토큰 저장
           localStorage.setItem('token', token);
@@ -247,7 +247,7 @@ const store = createStore({
       })
         .then((response) => {
           const token = response.data.data.jwtToken;
-          const refreshToken = response.data.data.refreshToken;
+          const refreshToken = response.data.data.refreshJwtToken;
 
           // 토큰 저장
           localStorage.setItem('token', token);
@@ -578,27 +578,33 @@ const store = createStore({
 
 // 응답 인터셉터 추가
 axiosInstance.interceptors.response.use(undefined, function (error) {
-  if (error) {
+  if (error.response && error.response.status === 401) {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (!originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refreshToken');
-      return axiosInstance.get('/token/refresh', { 
+      return axiosInstance.get('/token/refresh', {
         params: {
-        userId: store.state.userId, 
-        refreshToken: refreshToken 
-      }
-    })
-        .then(response => {
-          if (response.status === 200) {
-            // 새로운 액세스 토큰을 로컬 스토리지에 저장
-            localStorage.setItem('token', response.headers.getAuthorization);
-          } else if (response.status === 403) {
-            // 실패한 요청 다시 보내기
-            originalRequest.headers['Authorization'] = 'Bearer ' + response.data.refreshToken;
-            return axios(originalRequest);
-          }
-        })
+          userId: store.state.userId, 
+          refreshToken: refreshToken 
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          // 새로운 액세스 토큰을 로컬 스토리지에 저장
+          const newToken = response.headers.authorization.replace('Bearer ', '');
+          localStorage.setItem('token', newToken);
+          const token = localStorage.getItem('token')
+
+          // 실패한 요청 다시 보내기
+          originalRequest.headers['Authorization'] = `Bearer ${token}`;
+          return axiosInstance(originalRequest);
+        }
+      })
+      .catch(err => {
+        console.error("토큰 갱신 요청 중 에러 발생:", err);
+        // 필요에 따라 로그아웃 처리 등 추가 작업을 할 수 있습니다.
+      });
     }
   }
   return Promise.reject(error);
