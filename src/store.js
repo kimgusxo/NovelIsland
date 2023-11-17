@@ -199,6 +199,18 @@ const store = createStore({
   },
 
   actions: {
+    // login state
+    checkLogin({ commit }) {
+      const user = localStorage.getItem('user');
+
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        commit('setUser', parsedUser);
+        commit('setLoggedInStatus', true);
+        commit('setUserId', parsedUser.userId);
+      }
+    },
+
 
     // user
     login(context) {
@@ -213,6 +225,9 @@ const store = createStore({
           // 토큰 저장
           localStorage.setItem('token', token);
           localStorage.setItem('refreshToken', refreshToken);
+
+          // 유저 저장
+          localStorage.setItem('user', JSON.stringify(response.data.data));
 
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정
@@ -252,6 +267,9 @@ const store = createStore({
           // 토큰 저장
           localStorage.setItem('token', token);
           localStorage.setItem('refreshToken', refreshToken);
+
+          // 유저 저장
+          localStorage.setItem('user', JSON.stringify(response.data.data));
 
           context.commit('setUser', response.data.data);
           context.commit('setLoggedInStatus', true); // 로그인 상태를 true로 설정

@@ -93,6 +93,11 @@ export default {
     },
     logout() {
       this.$store.commit('setLoggedInStatus', false);
+      this.$store.commit('setUser', {});
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      
       this.$router.push('/');
     },
   },

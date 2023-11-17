@@ -16,3 +16,4 @@ createApp(App)
   .provide('$axios', axios)
   .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app')
+  
