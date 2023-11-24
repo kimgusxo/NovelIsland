@@ -14,7 +14,7 @@ import InfomationPage from './components/page/InfomationPage'
 import BookMarkPage from './components/page/BookMarkPage'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/NovelIsland-FrontEnd/'),
   routes: [
     {
       path: '/',
