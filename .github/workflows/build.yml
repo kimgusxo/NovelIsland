@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main  # 빌드를 자동화할 브랜치를 지정합니다. 필요에 따라 변경할 수 있습니다.
+      - master  # 빌드를 자동화할 브랜치를 지정합니다. 필요에 따라 변경할 수 있습니다.
 
 jobs:
   build:
@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout 코드
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
 
     - name: Node.js 설치
-      uses: actions/setup-node@main
+      uses: actions/setup-node@v2
       with:
         node-version: 14
 
@@ -27,6 +27,5 @@ jobs:
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.0
       with:
-        branch: main  # 배포할 브랜치를 지정합니다. 필요에 따라 변경할 수 있습니다.
+        branch: master  # 배포할 브랜치를 지정합니다. 필요에 따라 변경할 수 있습니다.
         folder: docs  # 빌드된 파일이 위치한 폴더를 지정합니다. 필요에 따라 변경할 수 있습니다.        
-        
