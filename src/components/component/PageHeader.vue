@@ -51,7 +51,7 @@
         <div>
           <span @click="goToSignUpPage">
             <font-awesome-icon :icon="['fas', 'pen']" />
-            회원가입1
+            회원가입
           </span>
         </div>
       </template>
