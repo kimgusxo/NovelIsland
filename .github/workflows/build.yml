@@ -11,12 +11,12 @@ jobs:
 
     steps:
     - name: Checkout 코드
-      uses: actions/checkout@v2
+      uses: actions/checkout@main
 
     - name: Node.js 설치
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@main
       with:
-        node-version: 12.x
+        node-version: 14.x
 
     - name: 의존성 설치
       run: npm install
@@ -25,7 +25,7 @@ jobs:
       run: npm run build  # 빌드 스크립트가 `npm run build`인 경우입니다. 필요에 따라 변경할 수 있습니다.
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.0
+      uses: peaceiris/actions-gh-pages@v3
       with:
           github_token: ${{ secrets.CUSTOM_TOKEN }}
           publish_dir: ./docs
