@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '@/store' // Vuex 스토어를 import 합니다.
 import MainPage from './components/page/MainPage' // 라우트 컴포넌트를 import
 import NovelPage from './components/page/NovelPage'
@@ -14,7 +14,7 @@ import InfomationPage from './components/page/InfomationPage'
 import BookMarkPage from './components/page/BookMarkPage'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory('/NovelIsland-FrontEnd'),
   routes: [
     {
       path: '/',
