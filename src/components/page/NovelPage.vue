@@ -1,6 +1,6 @@
 <template>
   <h1>
-    소설
+    소설1231564561564156156
   </h1>
   <div>
     <SearchComponent searchAction="searchNovelsInNovelPage" 

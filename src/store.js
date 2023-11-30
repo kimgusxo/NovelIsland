@@ -3,7 +3,7 @@ import axios from 'axios'; // Axios를 import
 import router from './router';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://172.30.67.48:8081', // 이 부분에 API 서버의 주소와 포트를 설정하세요
+  baseURL: 'http://localhost:8081', // 이 부분에 API 서버의 주소와 포트를 설정하세요
 });
 
 
